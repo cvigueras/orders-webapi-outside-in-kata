@@ -22,7 +22,17 @@ public class StartupTest : WebApplicationFactory<Program>
 
     private void CreateDataBase()
     {
-        
+        var connection = new SQLiteConnection("Data Source=:memory:");
+
+        connection.Execute(@"CREATE TABLE IF NOT EXISTS Orders(
+                Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                Customer VARCHAR(200) NOT NULL,
+                Address VARCHAR(400) NOT NULL,
+                Number VARCHAR(10) NOT NULL)"
+        );
+
+        connection.Close();
+        connection.Dispose();
     }
 
     protected override IHost CreateHost(IHostBuilder builder)

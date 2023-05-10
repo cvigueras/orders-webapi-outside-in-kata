@@ -16,7 +16,7 @@ namespace OrdersWeb.Test
         public async Task GetAnOrderByIdAfterPostOneOrder()
         {
             var jsonPost = await GivenJson();
-            var response = await _client!.PostAsync("/Order/",
+            var response = await _client!.PostAsync("/Orders/",
                 new StringContent(jsonPost,
                     Encoding.Default,
                     "application/json"));

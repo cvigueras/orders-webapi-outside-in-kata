@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using AutoMapper;
+using FluentAssertions;
 using NSubstitute;
 using OrdersWeb.Api;
 using OrdersWeb.Api.Controllers;
@@ -9,30 +10,33 @@ namespace OrdersWeb.Test
     public class OrdersControllerShould
     {
         private IOrderRepository _orderRepository;
+        private IMapper _mapper;
+        private OrdersController _ordersController;
 
         [SetUp]
         public void SetUp()
         {
             _orderRepository = Substitute.For<IOrderRepository>();
+            _mapper = Substitute.For<IMapper>();
+            _ordersController = new OrdersController(_orderRepository, _mapper);
         }
 
         [Test]
         public void CreateOrderWithBasicData()
         {
-            var givenOrder = new OrderReadDto(OrderNumber: "ORD765190", Customer: "John Doe",
+            var givenOrder = new OrderCreateDto(OrderNumber: "ORD765190", Customer: "John Doe",
                 Address: "A Simple Street, 123");
-            var orderController = new OrderController();
 
-            var result = orderController.Post(givenOrder);
-            Order order = new Order
+            var order = new Order
             {
-                OrderNumber = "ORD765190",
+                Number = "ORD765190",
                 Customer = "John Doe",
                 Address = "A Simple Street, 123",
             };
-            _orderRepository.Received().Add(order);
+            _mapper.Map<Order>(givenOrder).Returns(order);
+            _ordersController.Post(givenOrder);
 
-            result.Should().BeEquivalentTo(givenOrder);
+            _orderRepository.Received().Add(order);
         }
     }
 }
