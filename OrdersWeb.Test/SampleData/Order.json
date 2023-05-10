@@ -1,0 +1,15 @@
+{
+  "number": "ORD765190",
+  "customer": "CustomerOne",
+  "address": "Avda Los Pinos, 3",
+  "products": [
+    {
+      "name": "Computer MOnitor",
+      "price": "100€"
+    },
+    {
+      "name": "Keyboard",
+      "price": "30€"
+    }
+  ]
+}

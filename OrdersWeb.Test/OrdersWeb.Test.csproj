@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -25,6 +25,16 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OrdersWeb.Api\OrdersWeb.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="SampleData\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="SampleData\Order.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
