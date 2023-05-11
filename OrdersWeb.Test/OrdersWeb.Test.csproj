@@ -29,15 +29,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="SampleData\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="OrderingCreateFeature.GetAnOrderByIdAfterPostOneOrder.verified.txt">
       <DependentUpon>OrderingCreateFeature.cs</DependentUpon>
     </None>
     <None Update="OrderingCreateFeature.GetAnOrderByNumberAfterPost.verified.txt">
       <DependentUpon>OrderingCreateFeature.cs</DependentUpon>
+    </None>
+    <None Update="SampleData\UpdatedOrder.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="SampleData\Order.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
