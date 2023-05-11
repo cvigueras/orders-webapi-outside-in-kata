@@ -4,7 +4,7 @@ using Dapper;
 
 namespace OrdersWeb.Api;
 
-class OrderRepository : IOrderRepository
+public class OrderRepository : IOrderRepository
 {
     private readonly SQLiteConnection? _connection;
 
@@ -19,7 +19,7 @@ class OrderRepository : IOrderRepository
                                        $"VALUES('{order.Customer}', '{order.Address}', '{order.Number}')");
     }
 
-    public Task<Order> Get(string orderNumber)
+    public Task<Order> GetByOrderNumber(string number)
     {
         throw new NotImplementedException();
     }

@@ -22,17 +22,12 @@ public class StartupTest : WebApplicationFactory<Program>
 
     private void CreateDataBase()
     {
-        var connection = new SQLiteConnection("Data Source=:memory:");
-
-        connection.Execute(@"CREATE TABLE IF NOT EXISTS Orders(
+        _connection.Execute(@"CREATE TABLE IF NOT EXISTS Orders(
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
                 Customer VARCHAR(200) NOT NULL,
                 Address VARCHAR(400) NOT NULL,
                 Number VARCHAR(10) NOT NULL)"
         );
-
-        connection.Close();
-        connection.Dispose();
     }
 
     protected override IHost CreateHost(IHostBuilder builder)
@@ -40,6 +35,7 @@ public class StartupTest : WebApplicationFactory<Program>
         builder.ConfigureServices(services =>
         {
             services.AddSingleton(_connection);
+            services.AddSingleton<IOrderRepository,OrderRepository>();
         });
 
         return base.CreateHost(builder);

@@ -53,7 +53,7 @@ namespace OrdersWeb.Test
                 Address: "A Simple Street, 123");
 
             _mapper.Map<OrderReadDto>(givenOrder).Returns(expectedOrder);
-            _orderRepository.Get("ORD765190").Returns(givenOrder);
+            _orderRepository.GetByOrderNumber("ORD765190").Returns(givenOrder);
 
             var result = _ordersController.Get("ORD765190");
 
