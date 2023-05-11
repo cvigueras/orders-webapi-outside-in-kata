@@ -8,6 +8,7 @@ namespace OrdersWeb.Api.Start
         public MapperConfig()
         {
             CreateMap<Order, OrderCreateDto>().ReverseMap();
+            CreateMap<Order, OrderReadDto>().ReverseMap();
         }
     }
 }

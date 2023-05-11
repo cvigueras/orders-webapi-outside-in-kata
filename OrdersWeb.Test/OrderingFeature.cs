@@ -21,7 +21,7 @@ namespace OrdersWeb.Test
                     Encoding.Default,
                     "application/json"));
             response.EnsureSuccessStatusCode();
-            response = await _client.GetAsync("/Order/ORD765190");
+            response = await _client.GetAsync("/Orders/ORD765190");
             response.EnsureSuccessStatusCode();
             var result = response.Content.ReadAsStringAsync().Result;
 

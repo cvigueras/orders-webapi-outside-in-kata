@@ -26,8 +26,9 @@ public class OrdersController : ControllerBase
     }
 
     [HttpGet]
-    public object Get(string orderNumber)
+    public async Task<OrderReadDto> Get(string orderNumber)
     {
-        throw new NotImplementedException();
+        var order = await _orderRepository.Get(orderNumber);
+        return _mapper.Map<OrderReadDto>(order);
     }
 }
