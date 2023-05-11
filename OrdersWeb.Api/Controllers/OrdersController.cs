@@ -24,4 +24,10 @@ public class OrdersController : ControllerBase
         await _orderRepository.Add(orderEntity);
         return Ok("Order created");
     }
+
+    [HttpGet]
+    public object Get(string orderNumber)
+    {
+        throw new NotImplementedException();
+    }
 }

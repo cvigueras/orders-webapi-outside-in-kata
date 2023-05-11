@@ -39,5 +39,26 @@ namespace OrdersWeb.Test
 
             _orderRepository.Received().Add(order);
         }
+
+        [Test]
+        public void DisplayOrderRequested()
+        {
+            var givenOrder = new Order
+            {
+                Number = "ORD765190",
+                Customer = "John Doe",
+                Address = "A Simple Street, 123",
+            };
+            var expectedOrder = new OrderReadDto(Number: "ORD765190", Customer: "John Doe",
+                Address: "A Simple Street, 123");
+
+            _orderRepository.Get("ORD765190").Returns(givenOrder);
+
+            var result = _ordersController.Get("ORD765190");
+
+            result.Should().Be(expectedOrder);
+        }
     }
+
+    public record OrderReadDto(string Number, string Customer, string Address);
 }

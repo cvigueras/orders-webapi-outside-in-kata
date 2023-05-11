@@ -18,4 +18,9 @@ class OrderRepository : IOrderRepository
         await _connection.ExecuteAsync($"INSERT INTO Orders(Customer, Address, Number) " +
                                        $"VALUES('{order.Customer}', '{order.Address}', '{order.Number}')");
     }
+
+    public Task<Order> Get(string orderNumber)
+    {
+        throw new NotImplementedException();
+    }
 }
