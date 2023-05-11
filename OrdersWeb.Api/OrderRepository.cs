@@ -21,6 +21,7 @@ public class OrderRepository : IOrderRepository
 
     public Task<Order> GetByOrderNumber(string number)
     {
-        throw new NotImplementedException();
+       var orders = _connection.Query<Order>($"SELECT * FROM ORDERS WHERE Number = '{number}'");
+       return Task.FromResult(orders.First());
     }
 }

@@ -1,9 +1,7 @@
-﻿using System.Data.Common;
-using System.Data.SQLite;
-using Dapper;
+﻿using Dapper;
 using FluentAssertions;
 using OrdersWeb.Api;
-using OrdersWeb.Api.Models;
+using System.Data.SQLite;
 
 namespace OrdersWeb.Test
 {
