@@ -2,6 +2,7 @@
 using FluentAssertions;
 using OrdersWeb.Api;
 using System.Data.SQLite;
+using OrdersWeb.Api.Models;
 
 namespace OrdersWeb.Test
 {
@@ -26,5 +27,21 @@ namespace OrdersWeb.Test
             action.Should().Throw<InvalidOperationException>();
         }
 
+        [Test]
+        public async Task RetrieveAnExistingOrder()
+        {
+            var orderRepository = new OrderRepository(connection);
+            var order = new Order
+            {
+                Address = "New Address",
+                Customer = "John Doe",
+                Number = "ORD987654",
+            };
+            await orderRepository.Add(order);
+
+            var result = await orderRepository.GetByOrderNumber("ORD987654");
+
+            result.Should().BeEquivalentTo(order);
+        }
     }
 }

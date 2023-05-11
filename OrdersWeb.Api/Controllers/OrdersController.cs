@@ -25,10 +25,10 @@ public class OrdersController : ControllerBase
         return Ok("Order created");
     }
 
-    [HttpGet]
-    public async Task<OrderReadDto> Get(string orderNumber)
+    [HttpGet("{number}")]
+    public async Task<OrderReadDto> Get(string number)
     {
-        var order = await _orderRepository.GetByOrderNumber(orderNumber);
+        var order = await _orderRepository.GetByOrderNumber(number);
         return _mapper.Map<OrderReadDto>(order);
     }
 }
