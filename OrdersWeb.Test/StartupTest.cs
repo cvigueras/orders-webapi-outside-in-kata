@@ -35,7 +35,7 @@ public class StartupTest : WebApplicationFactory<Program>
         builder.ConfigureServices(services =>
         {
             services.AddSingleton(_connection);
-            services.AddSingleton<IOrderRepository,OrderRepository>();
+            services.AddSingleton<IOrderRepository, OrderRepository>();
         });
 
         return base.CreateHost(builder);

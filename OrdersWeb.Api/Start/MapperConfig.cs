@@ -1,5 +1,5 @@
-﻿using OrdersWeb.Api.Models;
-using AutoMapper;
+﻿using AutoMapper;
+using OrdersWeb.Api.Models;
 
 namespace OrdersWeb.Api.Start
 {

@@ -1,6 +1,6 @@
-﻿using OrdersWeb.Api.Models;
+﻿using Dapper;
+using OrdersWeb.Api.Models;
 using System.Data.SQLite;
-using Dapper;
 
 namespace OrdersWeb.Api;
 
@@ -21,7 +21,7 @@ public class OrderRepository : IOrderRepository
 
     public Task<Order> GetByOrderNumber(string number)
     {
-       var orders = _connection.Query<Order>($"SELECT * FROM ORDERS WHERE Number = '{number}'");
-       return Task.FromResult(orders.First());
+        var orders = _connection.Query<Order>($"SELECT * FROM ORDERS WHERE Number = '{number}'");
+        return Task.FromResult(orders.First());
     }
 }
