@@ -1,3 +1,3 @@
 ﻿namespace OrdersWeb.Api.Models;
 
-public record OrderCreateDto(string OrderNumber, string Customer, string Address);
+public record OrderCreateDto(string Number, string Customer, string Address);

@@ -4,5 +4,5 @@ namespace OrdersWeb.Api;
 
 public interface IOrderRepository
 {
-    void Add(Order order);
+    Task Add(Order order);
 }

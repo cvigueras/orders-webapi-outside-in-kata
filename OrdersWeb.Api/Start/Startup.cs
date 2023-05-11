@@ -19,6 +19,10 @@ public class Startup
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+        services.AddScoped<IOrderRepository, OrderRepository>();
+        Connection.CreateDataBase();
+        services.AddScoped(_ => new SQLiteConnection("Data Source=./Orders.db"));
+        services.AddAutoMapper(typeof(MapperConfig));
     }
 
     public void Configure(WebApplication app, IWebHostEnvironment env)

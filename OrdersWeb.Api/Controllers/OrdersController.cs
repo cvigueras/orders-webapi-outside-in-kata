@@ -18,10 +18,10 @@ public class OrdersController : ControllerBase
     }
 
     [HttpPost]
-    public Task<IActionResult> Post(OrderCreateDto order)
+    public async Task<IActionResult> Post(OrderCreateDto order)
     {
         var orderEntity = _mapper.Map<Order>(order);
-        _orderRepository.Add(orderEntity);
-        return Task.FromResult<IActionResult>(Ok("Order created"));
+        await _orderRepository.Add(orderEntity);
+        return Ok("Order created");
     }
 }

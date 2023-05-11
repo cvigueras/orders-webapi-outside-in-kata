@@ -24,7 +24,7 @@ namespace OrdersWeb.Test
         [Test]
         public void CreateOrderWithBasicData()
         {
-            var givenOrder = new OrderCreateDto(OrderNumber: "ORD765190", Customer: "John Doe",
+            var givenOrder = new OrderCreateDto(Number: "ORD765190", Customer: "John Doe",
                 Address: "A Simple Street, 123");
 
             var order = new Order
@@ -34,6 +34,7 @@ namespace OrdersWeb.Test
                 Address = "A Simple Street, 123",
             };
             _mapper.Map<Order>(givenOrder).Returns(order);
+
             _ordersController.Post(givenOrder);
 
             _orderRepository.Received().Add(order);
