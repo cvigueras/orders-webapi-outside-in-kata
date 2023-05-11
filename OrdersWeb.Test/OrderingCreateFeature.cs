@@ -2,7 +2,7 @@
 
 namespace OrdersWeb.Test
 {
-    public class OrderingFeature
+    public class OrderingCreateFeature
     {
         private HttpClient? _client;
 
@@ -13,7 +13,7 @@ namespace OrdersWeb.Test
         }
 
         [Test]
-        public async Task GetAnOrderByIdAfterPostOneOrder()
+        public async Task GetAnOrderByNumberAfterPost()
         {
             var jsonPost = await GivenJson();
             var response = await _client!.PostAsync("/Orders/",
@@ -26,13 +26,12 @@ namespace OrdersWeb.Test
             var result = response.Content.ReadAsStringAsync().Result;
 
             await Verify(result);
-
         }
 
         private async Task<string> GivenJson()
         {
-            using var r = new StreamReader("./SampleData/Order.json");
-            return await r.ReadToEndAsync();
+            using var jsonReader = new StreamReader("./SampleData/Order.json");
+            return await jsonReader.ReadToEndAsync();
         }
     }
 }
