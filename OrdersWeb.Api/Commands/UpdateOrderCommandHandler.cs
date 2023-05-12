@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using OrdersWeb.Api.Controllers;
 using OrdersWeb.Api.Models;
 
 namespace OrdersWeb.Api.Commands;

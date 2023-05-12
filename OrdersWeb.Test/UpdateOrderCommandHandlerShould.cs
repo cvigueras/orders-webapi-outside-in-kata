@@ -2,17 +2,17 @@
 using FluentAssertions;
 using NSubstitute;
 using OrdersWeb.Api;
-using OrdersWeb.Api.Controllers;
+using OrdersWeb.Api.Commands;
 using OrdersWeb.Api.Models;
 
 namespace OrdersWeb.Test
 {
-    public class OrdersControllerShould
+    public class UpdateOrderCommandHandlerShould
     {
         private StartupTest _startupTest;
         private IOrderRepository _orderRepository;
         private IMapper _mapper;
-        private OrdersController _ordersController;
+        private UpdateOrderCommandHandler _handler;
 
         [SetUp]
         public void SetUp()
@@ -21,15 +21,15 @@ namespace OrdersWeb.Test
             var connection = _startupTest.GetConnection();
             _orderRepository = new OrderRepository(connection);
             _mapper = Substitute.For<IMapper>();
-            _ordersController = new OrdersController(_orderRepository, _mapper);
+            _handler = new UpdateOrderCommandHandler(_orderRepository, _mapper);
         }
 
         [Test]
-        public void DisplayNewOrderInformationWhenUpdatedOrder()
+        public async Task DisplayNewOrderInformationWhenUpdatedOrder()
         {
             GivenAPostOrder();
 
-            var updateOrder = WhenOrderIsUpdated();
+            var updateOrder = await WhenOrderIsUpdated();
 
             ThenShowUpdatedOrderInformation(updateOrder);
         }
@@ -40,7 +40,7 @@ namespace OrdersWeb.Test
             result.Result.Should().BeEquivalentTo(orderUpdateDto);
         }
 
-        private OrderUpdateDto WhenOrderIsUpdated()
+        private async Task<OrderUpdateDto> WhenOrderIsUpdated()
         {
             var givenUpdateOrder = new OrderUpdateDto(Id: 1, Number: "ORD765190", Customer: "New John Doe",
                 Address: "A new Simple Street, 123");
@@ -53,7 +53,8 @@ namespace OrdersWeb.Test
                 Address = "A new Simple Street, 123",
             };
             _mapper.Map<Order>(givenUpdateOrder).Returns(order);
-            _ordersController.Put(givenUpdateOrder.Number, givenUpdateOrder);
+            var command = new UpdateOrderCommand(givenUpdateOrder);
+            await _handler.Handle(command, default);
             return givenUpdateOrder;
         }
 

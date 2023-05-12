@@ -3,7 +3,6 @@ using FluentAssertions;
 using NSubstitute;
 using OrdersWeb.Api;
 using OrdersWeb.Api.Commands;
-using OrdersWeb.Api.Controllers;
 using OrdersWeb.Api.Models;
 
 namespace OrdersWeb.Test
