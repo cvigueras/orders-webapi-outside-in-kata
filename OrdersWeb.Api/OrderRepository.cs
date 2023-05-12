@@ -13,10 +13,12 @@ public class OrderRepository : IOrderRepository
         _connection = connection;
     }
 
-    public async Task Add(Order order)
+    public async Task<int> Add(Order order)
     {
         await _connection.ExecuteAsync($"INSERT INTO Orders(Customer, Address, Number) " +
-                                       $"VALUES('{order.Customer}', '{order.Address}', '{order.Number}')");
+                                       $"VALUES('{order.Customer}', '{order.Address}', '{order.Number}');");
+        var foo = _connection.ExecuteScalar<string>("select last_insert_rownumber()");
+        return _connection.ExecuteScalar<int>("select last_insert_rowid()");
     }
 
     public Task<Order> GetByOrderNumber(string number)
@@ -25,8 +27,9 @@ public class OrderRepository : IOrderRepository
         return Task.FromResult(orders.First());
     }
 
-    public void Update(Order expectedOrder)
+    public async Task Update(Order order)
     {
-        throw new NotImplementedException();
+        await _connection.ExecuteAsync($"UPDATE Orders SET Customer = '{order.Customer}', Address = '{order.Address}'" +
+                                       $" WHERE Number = '{order.Number}'");
     }
 }

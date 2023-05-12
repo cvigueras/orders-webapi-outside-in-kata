@@ -4,6 +4,6 @@ namespace OrdersWeb.Api;
 
 public interface IOrderRepository
 {
-    Task Add(Order order);
+    Task<int> Add(Order order);
     Task<Order> GetByOrderNumber(string number);
 }

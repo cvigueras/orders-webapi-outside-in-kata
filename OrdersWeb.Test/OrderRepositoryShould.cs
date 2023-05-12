@@ -44,10 +44,16 @@ namespace OrdersWeb.Test
         public void UpdateAnOrder()
         {
             var orderRepository = new OrderRepository(connection);
-            var givenOrder = fixture.Create<Order>();
-            orderRepository.Add(givenOrder);
+            var givenOrder = new Order
+            {
+                Number = "ORD445190",
+                Customer = "John Doe",
+                Address = "A Simple Street, 123",
+            };
+            var lastId = orderRepository.Add(givenOrder);
             var expectedOrder = new Order
             {
+                Id = lastId.Result,
                 Address = "New Address",
                 Customer = "New customer",
                 Number = givenOrder.Number,
@@ -56,7 +62,7 @@ namespace OrdersWeb.Test
 
             var result = orderRepository.GetByOrderNumber(expectedOrder.Number);
 
-            result.Should().BeEquivalentTo(expectedOrder);
+            result.Result.Should().BeEquivalentTo(expectedOrder);
         }
     }
 }
