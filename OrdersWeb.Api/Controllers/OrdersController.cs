@@ -1,37 +1,9 @@
 ﻿using AutoMapper;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OrdersWeb.Api.Models;
+using OrdersWeb.Api.Queries;
 
 namespace OrdersWeb.Api.Controllers;
-
-public class GetOrderByNumberQueryHandler : IRequestHandler<GetOrderByNumberQuery, Order>
-{
-    private readonly IOrderRepository _orderRepository;
-    private readonly IMapper _mapper;
-
-    public GetOrderByNumberQueryHandler(IOrderRepository orderRepository, IMapper mapper)
-    {
-        _orderRepository = orderRepository;
-        _mapper = mapper;
-    }
-
-
-    public async Task<Order> Handle(GetOrderByNumberQuery request, CancellationToken cancellationToken)
-    {
-        return await _orderRepository.GetByOrderNumber(request.OrderNumber);
-    }
-}
-
-public class GetOrderByNumberQuery : IRequest<Order>
-{
-    public GetOrderByNumberQuery(string orderNumber)
-    {
-        OrderNumber = orderNumber;
-    }
-
-    public string OrderNumber { get; set; }
-}
 
 [ApiController]
 [Route("[controller]")]
