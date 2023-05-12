@@ -29,6 +29,11 @@ public class OrdersController : ControllerBase
     [HttpGet("{number}")]
     public async Task<OrderReadDto> Get(string number)
     {
+        return await Handle(number);
+    }
+
+    private async Task<OrderReadDto> Handle(string number)
+    {
         var order = await _orderRepository.GetByOrderNumber(number);
         return _mapper.Map<OrderReadDto>(order);
     }
