@@ -24,4 +24,9 @@ public class OrderRepository : IOrderRepository
         var orders = _connection.Query<Order>($"SELECT * FROM ORDERS WHERE Number = '{number}'");
         return Task.FromResult(orders.First());
     }
+
+    public void Update(Order expectedOrder)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -39,5 +39,24 @@ namespace OrdersWeb.Test
 
             result.Should().BeEquivalentTo(order);
         }
+
+        [Test]
+        public void UpdateAnOrder()
+        {
+            var orderRepository = new OrderRepository(connection);
+            var givenOrder = fixture.Create<Order>();
+            orderRepository.Add(givenOrder);
+            var expectedOrder = new Order
+            {
+                Address = "New Address",
+                Customer = "New customer",
+                Number = givenOrder.Number,
+            };
+            orderRepository.Update(expectedOrder);
+
+            var result = orderRepository.GetByOrderNumber(expectedOrder.Number);
+
+            result.Should().BeEquivalentTo(expectedOrder);
+        }
     }
 }
