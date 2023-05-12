@@ -5,22 +5,32 @@ using OrdersWeb.Api.Models;
 
 namespace OrdersWeb.Api.Controllers;
 
-public class GetOrderByNumberQuery : IRequest<Order>
+public class GetOrderByNumberQueryHandler : IRequestHandler<GetOrderByNumberQuery, Order>
 {
     private readonly IOrderRepository _orderRepository;
     private readonly IMapper _mapper;
 
-    public GetOrderByNumberQuery(IOrderRepository orderRepository, IMapper mapper)
+    public GetOrderByNumberQueryHandler(IOrderRepository orderRepository, IMapper mapper)
     {
         _orderRepository = orderRepository;
         _mapper = mapper;
     }
 
-    public async Task<OrderReadDto> Handle(string number)
+
+    public async Task<Order> Handle(GetOrderByNumberQuery request, CancellationToken cancellationToken)
     {
-        var order = await _orderRepository.GetByOrderNumber(number);
-        return _mapper.Map<OrderReadDto>(order);
+        return await _orderRepository.GetByOrderNumber(request.OrderNumber);
     }
+}
+
+public class GetOrderByNumberQuery : IRequest<Order>
+{
+    public GetOrderByNumberQuery(string orderNumber)
+    {
+        OrderNumber = orderNumber;
+    }
+
+    public string OrderNumber { get; set; }
 }
 
 [ApiController]
@@ -29,13 +39,13 @@ public class OrdersController : ControllerBase
 {
     private readonly IOrderRepository _orderRepository;
     private readonly IMapper _mapper;
-    private readonly GetOrderByNumberQuery _getOrderByNumberQuery;
+    private readonly GetOrderByNumberQueryHandler _getOrderByNumberQueryHandler;
 
     public OrdersController(IOrderRepository orderRepository, IMapper mapper)
     {
         _orderRepository = orderRepository;
         _mapper = mapper;
-        _getOrderByNumberQuery = new GetOrderByNumberQuery(orderRepository, _mapper);
+        _getOrderByNumberQueryHandler = new GetOrderByNumberQueryHandler(orderRepository, _mapper);
     }
 
     [HttpPost]
@@ -50,7 +60,9 @@ public class OrdersController : ControllerBase
     [HttpGet("{number}")]
     public async Task<OrderReadDto> Get(string number)
     {
-        return await _getOrderByNumberQuery.Handle(number);
+        var query = new GetOrderByNumberQuery(number);
+        var order = await _getOrderByNumberQueryHandler.Handle(query, default);
+        return _mapper.Map<OrderReadDto>(order);
     }
 
     [HttpPut("{number}")]
