@@ -2,7 +2,6 @@
 using FluentAssertions;
 using NSubstitute;
 using OrdersWeb.Api;
-using OrdersWeb.Api.Controllers;
 using OrdersWeb.Api.Models;
 using OrdersWeb.Api.Queries;
 

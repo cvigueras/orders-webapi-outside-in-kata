@@ -1,8 +1,8 @@
-﻿using FluentAssertions;
+﻿using AutoFixture;
+using FluentAssertions;
 using OrdersWeb.Api;
 using OrdersWeb.Api.Models;
 using System.Data.SQLite;
-using AutoFixture;
 
 namespace OrdersWeb.Test
 {

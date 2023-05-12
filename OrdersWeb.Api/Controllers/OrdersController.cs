@@ -46,7 +46,7 @@ public class OrdersController : ControllerBase
         if (number != orderUpdate.Number)
             return BadRequest("Order number mismatch");
         var query = new UpdateOrderCommand(orderUpdate);
-        await _updateOrderCommandHandler.Handle(query,default);
+        await _updateOrderCommandHandler.Handle(query, default);
         return Ok("Order updated successfully!");
     }
 }
