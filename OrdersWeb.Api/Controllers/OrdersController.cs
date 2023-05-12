@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OrdersWeb.Api.Models;
 
 namespace OrdersWeb.Api.Controllers;
 
-public class GetOrderByNumberQuery
+public class GetOrderByNumberQuery : IRequest<Order>
 {
     private readonly IOrderRepository _orderRepository;
     private readonly IMapper _mapper;
