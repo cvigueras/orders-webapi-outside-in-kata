@@ -14,6 +14,7 @@ public class OrdersController : ControllerBase
     private readonly IMapper _mapper;
     private readonly GetOrderByNumberQueryHandler _getOrderByNumberQueryHandler;
     private readonly CreateOrderCommandHandler _createOrderCommandHandler;
+    private readonly UpdateOrderCommandHandler _updateOrderCommandHandler;
 
     public OrdersController(IOrderRepository orderRepository, IMapper mapper)
     {
@@ -21,6 +22,7 @@ public class OrdersController : ControllerBase
         _mapper = mapper;
         _getOrderByNumberQueryHandler = new GetOrderByNumberQueryHandler(orderRepository, _mapper);
         _createOrderCommandHandler = new CreateOrderCommandHandler(_orderRepository, _mapper);
+        _updateOrderCommandHandler = new UpdateOrderCommandHandler(_orderRepository, _mapper);
     }
 
     [HttpPost]
@@ -41,9 +43,12 @@ public class OrdersController : ControllerBase
     }
 
     [HttpPut("{number}")]
-    public void Put(string number, OrderUpdateDto orderUpdate)
+    public async Task<IActionResult> Put(string number, OrderUpdateDto orderUpdate)
     {
-        var order = _mapper.Map<Order>(orderUpdate);
-        _orderRepository.Update(order);
+        if (number != orderUpdate.Number)
+            return BadRequest("Order number mismatch");
+        var query = new UpdateOrderCommand(orderUpdate);
+        await _updateOrderCommandHandler.Handle(query,default);
+        return Ok("Order updated successfully!");
     }
 }
