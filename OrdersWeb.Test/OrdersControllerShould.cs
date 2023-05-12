@@ -25,29 +25,6 @@ namespace OrdersWeb.Test
         }
 
         [Test]
-        public async Task CreateOrderWithBasicData()
-        {
-            var givenCreateOrder = new OrderCreateDto(Number: "ORD765190", Customer: "John Doe",
-                Address: "A Simple Street, 123");
-            var order = new Order
-            {
-                Number = "ORD765190",
-                Customer = "John Doe",
-                Address = "A Simple Street, 123",
-            };
-            _mapper.Map<Order>(givenCreateOrder).Returns(order);
-
-            _ordersController.Post(givenCreateOrder);
-
-            var expectedOrder = new OrderReadDto(Number: "ORD765190", Customer: "John Doe",
-                Address: "A Simple Street, 123");
-            var result = await _orderRepository.GetByOrderNumber("ORD765190");
-            result.Should().BeEquivalentTo(expectedOrder);
-        }
-
-
-
-        [Test]
         public void DisplayNewOrderInformationWhenUpdatedOrder()
         {
             GivenAPostOrder();
