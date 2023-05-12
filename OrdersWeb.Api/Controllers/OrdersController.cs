@@ -33,8 +33,10 @@ public class OrdersController : ControllerBase
         return _mapper.Map<OrderReadDto>(order);
     }
 
-    public void Put(string givenOrderId, Order order)
+    [HttpPut("{number}")]
+    public void Put(string number, OrderUpdateDto orderUpdate)
     {
-        throw new NotImplementedException();
+        var order = _mapper.Map<Order>(orderUpdate);
+        _orderRepository.Update(order);
     }
 }

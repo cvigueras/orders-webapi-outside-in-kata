@@ -77,23 +77,23 @@ namespace OrdersWeb.Test
         private void ThenShowUpdatedOrderInformation(OrderUpdateDto orderUpdateDto)
         {
             var result = _orderRepository.GetByOrderNumber(orderUpdateDto.Number);
-            result.Should().BeEquivalentTo(orderUpdateDto);
+            result.Result.Should().BeEquivalentTo(orderUpdateDto);
         }
 
         private OrderUpdateDto WhenOrderIsUpdated()
         {
-            var givenUpdateOrder = new OrderUpdateDto(Id: "1", Number: "ORD765190", Customer: "New John Doe",
+            var givenUpdateOrder = new OrderUpdateDto(Id: 1, Number: "ORD765190", Customer: "New John Doe",
                 Address: "A new Simple Street, 123");
 
             var order = new Order
             {
                 Id = 1,
                 Number = "ORD765190",
-                Customer = "John Doe",
-                Address = "A Simple Street, 123",
+                Customer = "New John Doe",
+                Address = "A new Simple Street, 123",
             };
             _mapper.Map<Order>(givenUpdateOrder).Returns(order);
-            _ordersController.Put(givenUpdateOrder.Id, order);
+            _ordersController.Put(givenUpdateOrder.Number, givenUpdateOrder);
             return givenUpdateOrder;
         }
 

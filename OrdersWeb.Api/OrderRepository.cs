@@ -17,7 +17,6 @@ public class OrderRepository : IOrderRepository
     {
         await _connection.ExecuteAsync($"INSERT INTO Orders(Customer, Address, Number) " +
                                        $"VALUES('{order.Customer}', '{order.Address}', '{order.Number}');");
-        var foo = _connection.ExecuteScalar<string>("select last_insert_rownumber()");
         return _connection.ExecuteScalar<int>("select last_insert_rowid()");
     }
 
