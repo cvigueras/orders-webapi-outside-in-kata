@@ -22,7 +22,8 @@ public class OrdersController : ControllerBase
     {
         var orderEntity = _mapper.Map<Order>(order);
         await _orderRepository.Add(orderEntity);
-        return Ok("Order created");
+        //TODO RETURN NUMBER
+        return Ok("ORD878878");
     }
 
     [HttpGet("{number}")]
@@ -30,5 +31,10 @@ public class OrdersController : ControllerBase
     {
         var order = await _orderRepository.GetByOrderNumber(number);
         return _mapper.Map<OrderReadDto>(order);
+    }
+
+    public void Put(string givenOrderId, Order order)
+    {
+        throw new NotImplementedException();
     }
 }

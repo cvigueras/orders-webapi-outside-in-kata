@@ -9,6 +9,7 @@ namespace OrdersWeb.Test
 {
     public class OrdersControllerShould
     {
+        private StartupTest _startupTest;
         private IOrderRepository _orderRepository;
         private IMapper _mapper;
         private OrdersController _ordersController;
@@ -16,28 +17,32 @@ namespace OrdersWeb.Test
         [SetUp]
         public void SetUp()
         {
-            _orderRepository = Substitute.For<IOrderRepository>();
+            _startupTest = new StartupTest();
+            var connection = _startupTest.GetConnection();
+            _orderRepository = new OrderRepository(connection);
             _mapper = Substitute.For<IMapper>();
             _ordersController = new OrdersController(_orderRepository, _mapper);
         }
 
         [Test]
-        public void CreateOrderWithBasicData()
+        public async Task CreateOrderWithBasicData()
         {
-            var givenOrder = new OrderCreateDto(Number: "ORD765190", Customer: "John Doe",
+            var givenCreateOrder = new OrderCreateDto(Number: "ORD765190", Customer: "John Doe",
                 Address: "A Simple Street, 123");
-
             var order = new Order
             {
                 Number = "ORD765190",
                 Customer = "John Doe",
                 Address = "A Simple Street, 123",
             };
-            _mapper.Map<Order>(givenOrder).Returns(order);
+            _mapper.Map<Order>(givenCreateOrder).Returns(order);
 
-            _ordersController.Post(givenOrder);
+            _ordersController.Post(givenCreateOrder);
 
-            _orderRepository.Received().Add(order);
+            var expectedOrder = new OrderReadDto(Number: "ORD765190", Customer: "John Doe",
+                Address: "A Simple Street, 123");
+            var result = await _orderRepository.GetByOrderNumber("ORD765190");
+            result.Should().BeEquivalentTo(expectedOrder);
         }
 
         [Test]
@@ -51,13 +56,56 @@ namespace OrdersWeb.Test
             };
             var expectedOrder = new OrderReadDto(Number: "ORD765190", Customer: "John Doe",
                 Address: "A Simple Street, 123");
-
             _mapper.Map<OrderReadDto>(givenOrder).Returns(expectedOrder);
-            _orderRepository.GetByOrderNumber("ORD765190").Returns(givenOrder);
+            _orderRepository.Add(givenOrder);
 
             var result = _ordersController.Get("ORD765190");
 
             result.Result.Should().BeEquivalentTo(expectedOrder);
+        }
+
+        [Test]
+        public void DisplayNewOrderInformationWhenUpdatedOrder()
+        {
+            GivenAPostOrder();
+
+            var updateOrder = WhenOrderIsUpdated();
+
+            ThenShowUpdatedOrderInformation(updateOrder);
+        }
+
+        private void ThenShowUpdatedOrderInformation(OrderUpdateDto orderUpdateDto)
+        {
+            var result = _orderRepository.GetByOrderNumber(orderUpdateDto.Number);
+            result.Should().BeEquivalentTo(orderUpdateDto);
+        }
+
+        private OrderUpdateDto WhenOrderIsUpdated()
+        {
+            var givenUpdateOrder = new OrderUpdateDto(Id: "1", Number: "ORD765190", Customer: "New John Doe",
+                Address: "A new Simple Street, 123");
+
+            var order = new Order
+            {
+                Id = 1,
+                Number = "ORD765190",
+                Customer = "John Doe",
+                Address = "A Simple Street, 123",
+            };
+            _mapper.Map<Order>(givenUpdateOrder).Returns(order);
+            _ordersController.Put(givenUpdateOrder.Id, order);
+            return givenUpdateOrder;
+        }
+
+        private void GivenAPostOrder()
+        {
+            var order = new Order
+            {
+                Number = "ORD765190",
+                Customer = "John Doe",
+                Address = "A Simple Street, 123",
+            };
+            _orderRepository.Add(order);
         }
     }
 }
