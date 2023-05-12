@@ -19,11 +19,11 @@ public class Startup
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-        services.AddScoped<IOrderRepository, OrderRepository>();
         Connection.CreateDataBase();
         services.AddMediatR(configuration => configuration.RegisterServicesFromAssembly(typeof(Program).Assembly));
         services.AddScoped(_ => new SQLiteConnection("Data Source=./Orders.db"));
         services.AddAutoMapper(typeof(MapperConfig));
+        services.AddScoped<IOrderRepository, OrderRepository>();
     }
 
     public void Configure(WebApplication app, IWebHostEnvironment env)
