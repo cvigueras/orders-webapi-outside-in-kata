@@ -4,17 +4,37 @@ using OrdersWeb.Api.Models;
 
 namespace OrdersWeb.Api.Controllers;
 
+public class GetOrderByNumberQuery
+{
+    private readonly IOrderRepository _orderRepository;
+    private readonly IMapper _mapper;
+
+    public GetOrderByNumberQuery(IOrderRepository orderRepository, IMapper mapper)
+    {
+        _orderRepository = orderRepository;
+        _mapper = mapper;
+    }
+
+    public async Task<OrderReadDto> Handle(string number)
+    {
+        var order = await _orderRepository.GetByOrderNumber(number);
+        return _mapper.Map<OrderReadDto>(order);
+    }
+}
+
 [ApiController]
 [Route("[controller]")]
 public class OrdersController : ControllerBase
 {
     private readonly IOrderRepository _orderRepository;
     private readonly IMapper _mapper;
+    private readonly GetOrderByNumberQuery _getOrderByNumberQuery;
 
     public OrdersController(IOrderRepository orderRepository, IMapper mapper)
     {
         _orderRepository = orderRepository;
         _mapper = mapper;
+        _getOrderByNumberQuery = new GetOrderByNumberQuery(orderRepository, _mapper);
     }
 
     [HttpPost]
@@ -29,13 +49,7 @@ public class OrdersController : ControllerBase
     [HttpGet("{number}")]
     public async Task<OrderReadDto> Get(string number)
     {
-        return await Handle(number);
-    }
-
-    private async Task<OrderReadDto> Handle(string number)
-    {
-        var order = await _orderRepository.GetByOrderNumber(number);
-        return _mapper.Map<OrderReadDto>(order);
+        return await _getOrderByNumberQuery.Handle(number);
     }
 
     [HttpPut("{number}")]
