@@ -10,7 +10,6 @@ namespace OrdersWeb.Api.Controllers;
 [Route("[controller]")]
 public class OrdersController : ControllerBase
 {
-    private readonly IOrderRepository _orderRepository;
     private readonly IMapper _mapper;
     private readonly GetOrderByNumberQueryHandler _getOrderByNumberQueryHandler;
     private readonly CreateOrderCommandHandler _createOrderCommandHandler;
@@ -18,11 +17,10 @@ public class OrdersController : ControllerBase
 
     public OrdersController(IOrderRepository orderRepository, IMapper mapper)
     {
-        _orderRepository = orderRepository;
         _mapper = mapper;
         _getOrderByNumberQueryHandler = new GetOrderByNumberQueryHandler(orderRepository, _mapper);
-        _createOrderCommandHandler = new CreateOrderCommandHandler(_orderRepository, _mapper);
-        _updateOrderCommandHandler = new UpdateOrderCommandHandler(_orderRepository, _mapper);
+        _createOrderCommandHandler = new CreateOrderCommandHandler(orderRepository, _mapper);
+        _updateOrderCommandHandler = new UpdateOrderCommandHandler(orderRepository, _mapper);
     }
 
     [HttpPost]

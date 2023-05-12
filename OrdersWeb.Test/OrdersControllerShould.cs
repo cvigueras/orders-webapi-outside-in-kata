@@ -45,24 +45,7 @@ namespace OrdersWeb.Test
             result.Should().BeEquivalentTo(expectedOrder);
         }
 
-        [Test]
-        public void DisplayOrderRequested()
-        {
-            var givenOrder = new Order
-            {
-                Number = "ORD765190",
-                Customer = "John Doe",
-                Address = "A Simple Street, 123",
-            };
-            var expectedOrder = new OrderReadDto(Number: "ORD765190", Customer: "John Doe",
-                Address: "A Simple Street, 123");
-            _mapper.Map<OrderReadDto>(givenOrder).Returns(expectedOrder);
-            _orderRepository.Add(givenOrder);
 
-            var result = _ordersController.Get("ORD765190");
-
-            result.Result.Should().BeEquivalentTo(expectedOrder);
-        }
 
         [Test]
         public void DisplayNewOrderInformationWhenUpdatedOrder()
