@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using OrdersWeb.Api.Commands;
 using OrdersWeb.Api.Models;
 using OrdersWeb.Api.Queries;
 
@@ -12,19 +13,21 @@ public class OrdersController : ControllerBase
     private readonly IOrderRepository _orderRepository;
     private readonly IMapper _mapper;
     private readonly GetOrderByNumberQueryHandler _getOrderByNumberQueryHandler;
+    private readonly CreateOrderCommandHandler _createOrderCommandHandler;
 
     public OrdersController(IOrderRepository orderRepository, IMapper mapper)
     {
         _orderRepository = orderRepository;
         _mapper = mapper;
         _getOrderByNumberQueryHandler = new GetOrderByNumberQueryHandler(orderRepository, _mapper);
+        _createOrderCommandHandler = new CreateOrderCommandHandler(_orderRepository, _mapper);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(OrderCreateDto order)
+    public async Task<IActionResult> Post(OrderCreateDto orderCreateDto)
     {
-        var orderEntity = _mapper.Map<Order>(order);
-        await _orderRepository.Add(orderEntity);
+        var createOrderCommand = new CreateOrderCommand(orderCreateDto);
+        await _createOrderCommandHandler.Handle(createOrderCommand, default);
         //TODO RETURN NUMBER
         return Ok("ORD878878");
     }
