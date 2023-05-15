@@ -31,5 +31,52 @@ namespace OrdersWeb.Test
 
             result.Should().BeEquivalentTo(Enumerable.Empty<ProductReadDto>());
         }
+
+        [Test]
+        public async Task RetrieveAllProductsList()
+        {
+            var productList = new List<Product>
+            {
+                new()
+                {
+                    Name = "Computer Monitor",
+                    Price = "100€",
+                },
+                new()
+                {
+                    Name = "Keyboard",
+                    Price = "30€",
+                },
+                new()
+                {
+                    Name = "Mouse",
+                    Price = "15€",
+                },
+                new()
+                {
+                    Name = "Router",
+                    Price = "70€",
+                },
+            };
+
+            _productRepository.GetAll().Returns(productList);
+            var productReadDto1 = new ProductReadDto("Computer Monitor", "100€");
+            var productReadDto2 = new ProductReadDto("Keyboard", "30€");
+            var productReadDto3 = new ProductReadDto("Mouse", "15€");
+            var productReadDto4 = new ProductReadDto("Router", "70€");
+            var expectedProducts = new List<ProductReadDto>
+            {
+                productReadDto1,
+                productReadDto2,
+                productReadDto3,
+                productReadDto4
+            };
+            _mapper.Map<IEnumerable<ProductReadDto>>(productList).Returns(expectedProducts);
+
+            var result = await _productsController.Get();
+
+            result.Should().BeEquivalentTo(expectedProducts);
+
+        }
     }
 }
