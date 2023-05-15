@@ -27,20 +27,20 @@ namespace OrdersWeb.Test
         }
 
         [Test]
-        public void RetrieveAnExistingProduct()
+        public async Task RetrieveAnExistingProduct()
         {
             var givenProduct = new Product
             {
-
                 Name = "Product1",
                 Price = "100€",
             };
-            _repository.Add(givenProduct);
+            var id = await _repository.Add(givenProduct);
 
-            var result = _repository.GetAll();
+            var result = await _repository.GetById(id);
 
             var expectedProduct = new Product
             {
+                Id = id,
                 Name = "Product1",
                 Price = "100€",
             };

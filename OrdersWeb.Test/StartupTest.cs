@@ -28,6 +28,12 @@ public class StartupTest : WebApplicationFactory<Program>
                 Address VARCHAR(400) NOT NULL,
                 Number VARCHAR(10) NOT NULL)"
         );
+
+        _connection.Execute(@"CREATE TABLE IF NOT EXISTS Products(
+                Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                Name VARCHAR(200) NOT NULL,
+                Price VARCHAR(20) NOT NULL)"
+        );
     }
 
     protected override IHost CreateHost(IHostBuilder builder)

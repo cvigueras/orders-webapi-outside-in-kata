@@ -1,5 +1,7 @@
 ﻿using System.Data.SQLite;
+using Dapper;
 using OrdersWeb.Api.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace OrdersWeb.Api;
 
@@ -17,8 +19,21 @@ public class ProductRepository
         return Enumerable.Empty<Product>();
     }
 
-    public void Add(Product product)
+    public async Task<int> Add(Product product)
     {
-        throw new NotImplementedException();
+        await _connection.ExecuteAsync($"INSERT INTO Products(Name, Price) " +
+                                       $"VALUES('{product.Name}', '{product.Price}');"); 
+        return GetLastId();
+    }
+
+    public async Task<Product> GetById(int id)
+    {
+        var products = await _connection.QueryAsync<Product>($"SELECT * FROM Products WHERE Id = '{id}'");
+        return products.First();
+    }
+
+    private int GetLastId()
+    {
+        return _connection.ExecuteScalar<int>("SELECT MAX(id) FROM Products");
     }
 }
