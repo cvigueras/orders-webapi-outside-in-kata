@@ -16,4 +16,9 @@ public class ProductRepository
     {
         return Enumerable.Empty<Product>();
     }
+
+    public void Add(Product product)
+    {
+        throw new NotImplementedException();
+    }
 }

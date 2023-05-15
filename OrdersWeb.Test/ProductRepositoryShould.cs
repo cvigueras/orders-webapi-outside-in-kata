@@ -25,5 +25,26 @@ namespace OrdersWeb.Test
 
             result.Should().Be(Enumerable.Empty<Product>());
         }
+
+        [Test]
+        public void RetrieveAnExistingProduct()
+        {
+            var givenProduct = new Product
+            {
+
+                Name = "Product1",
+                Price = "100€",
+            };
+            _repository.Add(givenProduct);
+
+            var result = _repository.GetAll();
+
+            var expectedProduct = new Product
+            {
+                Name = "Product1",
+                Price = "100€",
+            };
+            result.Should().BeEquivalentTo(expectedProduct);
+        }
     }
 }
