@@ -1,11 +1,10 @@
-﻿using System.Data.SQLite;
-using Dapper;
+﻿using Dapper;
 using OrdersWeb.Api.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Data.SQLite;
 
 namespace OrdersWeb.Api;
 
-public class ProductRepository
+public class ProductRepository : IProductRepository
 {
     private readonly SQLiteConnection _connection;
 

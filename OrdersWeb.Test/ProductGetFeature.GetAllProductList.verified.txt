@@ -1,0 +1,1 @@
+﻿[{"name":"Computer Monitor","price":"100€"},{"name":"Keyboard","price":"30€"},{"name":"Mouse","price":"15€"},{"name":"Router","price":"70€"}]

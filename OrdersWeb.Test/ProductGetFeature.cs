@@ -5,11 +5,14 @@ namespace OrdersWeb.Test
     public class ProductGetFeature
     {
         private HttpClient? _client;
+        private StartupTest _startupTest;
 
         [SetUp]
         public void Setup()
         {
-            _client = new StartupTest().CreateClient();
+            _startupTest = new StartupTest();
+            _client = _startupTest.CreateClient();
+            _startupTest.CreateSeed();
         }
 
         [Test]

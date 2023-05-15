@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OrdersWeb.Api;
 using System.Data.SQLite;
+using OrdersWeb.Api.Models;
 
 namespace OrdersWeb.Test;
 
@@ -18,6 +19,36 @@ public class StartupTest : WebApplicationFactory<Program>
         _connection.Open();
 
         CreateDataBase();
+    }
+
+    public async Task CreateSeed()
+    {
+        var productList = new List<Product>
+        {
+            new()
+            {
+                Name = "Computer Monitor",
+                Price = "100€",
+            },
+            new()
+            {
+                Name = "Keyboard",
+                Price = "30€",
+            },
+            new()
+            {
+                Name = "Mouse",
+                Price = "15€",
+            },
+            new()
+            {
+                Name = "Router",
+                Price = "70€",
+            },
+        };
+
+        await _connection.ExecuteAsync($"INSERT INTO Products(Name, Price) " +
+                                       $"VALUES(@Name, @Price)", productList);
     }
 
     private void CreateDataBase()
@@ -42,6 +73,7 @@ public class StartupTest : WebApplicationFactory<Program>
         {
             services.AddSingleton(_connection);
             services.AddSingleton<IOrderRepository, OrderRepository>();
+            services.AddSingleton<IProductRepository, ProductRepository>();
         });
 
         return base.CreateHost(builder);
