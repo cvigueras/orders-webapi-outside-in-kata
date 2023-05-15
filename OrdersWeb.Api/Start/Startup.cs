@@ -24,6 +24,7 @@ public class Startup
         services.AddScoped(_ => new SQLiteConnection("Data Source=./Orders.db"));
         services.AddAutoMapper(typeof(MapperConfig));
         services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IProductRepository, ProductRepository>();
     }
 
     public void Configure(WebApplication app, IWebHostEnvironment env)

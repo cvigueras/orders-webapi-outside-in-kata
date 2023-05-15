@@ -1,1 +1,1 @@
-﻿[{"name":"Computer Monitor","price":"100€"},{"name":"Keyboard","price":"30€"},{"name":"Mouse","price":"15€"},{"name":"Router","price":"70€"}]
+﻿[{"id":1,"name":"Computer Monitor","price":"100€"},{"id":2,"name":"Keyboard","price":"30€"},{"id":3,"name":"Mouse","price":"15€"},{"id":4,"name":"Router","price":"70€"}]

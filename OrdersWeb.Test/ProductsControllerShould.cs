@@ -60,10 +60,10 @@ namespace OrdersWeb.Test
             };
 
             _productRepository.GetAll().Returns(productList);
-            var productReadDto1 = new ProductReadDto("Computer Monitor", "100€");
-            var productReadDto2 = new ProductReadDto("Keyboard", "30€");
-            var productReadDto3 = new ProductReadDto("Mouse", "15€");
-            var productReadDto4 = new ProductReadDto("Router", "70€");
+            var productReadDto1 = new ProductReadDto(0,"Computer Monitor", "100€");
+            var productReadDto2 = new ProductReadDto(0,"Keyboard", "30€");
+            var productReadDto3 = new ProductReadDto(0, "Mouse", "15€");
+            var productReadDto4 = new ProductReadDto(0, "Router", "70€");
             var expectedProducts = new List<ProductReadDto>
             {
                 productReadDto1,

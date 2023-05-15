@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace OrdersWeb.Test
+﻿namespace OrdersWeb.Test
 {
     public class ProductGetFeature
     {
