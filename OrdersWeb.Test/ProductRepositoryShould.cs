@@ -1,17 +1,21 @@
 ﻿using FluentAssertions;
 using OrdersWeb.Api;
 using OrdersWeb.Api.Models;
+using System.Data.SQLite;
 
 namespace OrdersWeb.Test
 {
     public class ProductRepositoryShould
     {
+        private SQLiteConnection? connection;
         private ProductRepository _repository;
 
         [SetUp]
         public void Setup()
         {
-            _repository = new ProductRepository();
+            var startupTest = new StartupTest();
+            connection = startupTest.GetConnection();
+            _repository = new ProductRepository(connection);
         }
 
         [Test]
