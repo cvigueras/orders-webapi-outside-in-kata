@@ -17,13 +17,18 @@ public class OrderRepository : IOrderRepository
     {
         await _connection.ExecuteAsync($"INSERT INTO Orders(Customer, Address, Number) " +
                                        $"VALUES('{order.Customer}', '{order.Address}', '{order.Number}');");
+        return GetLastId();
+    }
+
+    private int GetLastId()
+    {
         return _connection.ExecuteScalar<int>("SELECT MAX(id) FROM Orders");
     }
 
-    public Task<Order> GetByOrderNumber(string number)
+    public async Task<Order> GetByOrderNumber(string number)
     {
-        var orders = _connection.Query<Order>($"SELECT * FROM ORDERS WHERE Number = '{number}'");
-        return Task.FromResult(orders.First());
+        var orders = await _connection.QueryAsync<Order>($"SELECT * FROM ORDERS WHERE Number = '{number}'");
+        return orders.First();
     }
 
     public async Task Update(Order order)
