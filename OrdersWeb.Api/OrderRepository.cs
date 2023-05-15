@@ -17,7 +17,7 @@ public class OrderRepository : IOrderRepository
     {
         await _connection.ExecuteAsync($"INSERT INTO Orders(Customer, Address, Number) " +
                                        $"VALUES('{order.Customer}', '{order.Address}', '{order.Number}');");
-        return _connection.ExecuteScalar<int>("select last_insert_rowid()");
+        return _connection.ExecuteScalar<int>("SELECT MAX(id) FROM Orders");
     }
 
     public Task<Order> GetByOrderNumber(string number)

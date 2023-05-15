@@ -41,7 +41,7 @@ namespace OrdersWeb.Test
         }
 
         [Test]
-        public void UpdateAnOrder()
+        public async Task UpdateAnOrder()
         {
             var orderRepository = new OrderRepository(connection);
             var givenOrder = new Order
@@ -50,10 +50,10 @@ namespace OrdersWeb.Test
                 Customer = "John Doe",
                 Address = "A Simple Street, 123",
             };
-            var lastId = orderRepository.Add(givenOrder);
+            var lastId = await orderRepository.Add(givenOrder);
             var expectedOrder = new Order
             {
-                Id = lastId.Result,
+                Id = lastId,
                 Address = "New Address",
                 Customer = "New customer",
                 Number = givenOrder.Number,

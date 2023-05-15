@@ -24,9 +24,7 @@ public class OrdersController : ControllerBase
     public async Task<IActionResult> Post(OrderCreateDto orderCreateDto)
     {
         var createOrderCommand = new CreateOrderCommand(orderCreateDto);
-        await _sender.Send(createOrderCommand);
-        //TODO RETURN NUMBER
-        return Ok("ORD878878");
+        return Ok(await _sender.Send(createOrderCommand));
     }
 
     [HttpGet("{number}")]

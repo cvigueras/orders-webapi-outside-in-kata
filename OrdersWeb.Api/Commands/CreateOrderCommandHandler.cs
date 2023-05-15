@@ -4,7 +4,7 @@ using OrdersWeb.Api.Models;
 
 namespace OrdersWeb.Api.Commands;
 
-public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand>
+public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, int>
 {
     private readonly IOrderRepository _orderRepository;
     private readonly IMapper _mapper;
@@ -15,9 +15,9 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand>
         _mapper = mapper;
     }
 
-    public async Task Handle(CreateOrderCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {
         var order = _mapper.Map<Order>(request.OrderCreateDto);
-        await _orderRepository.Add(order);
+        return await _orderRepository.Add(order);
     }
 }

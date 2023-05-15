@@ -3,7 +3,7 @@ using OrdersWeb.Api.Models;
 
 namespace OrdersWeb.Api.Commands;
 
-public class CreateOrderCommand : IRequest
+public class CreateOrderCommand : IRequest<int>
 {
     public readonly OrderCreateDto OrderCreateDto;
 
