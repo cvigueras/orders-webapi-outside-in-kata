@@ -29,10 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="OrderingCreateFeature.GetAnOrderByIdAfterPostOneOrder.verified.txt">
+    <None Update="Orders\OrderingCreateFeature.GetAnOrderByIdAfterPostOneOrder.verified.txt">
       <DependentUpon>OrderingCreateFeature.cs</DependentUpon>
     </None>
-    <None Update="OrderingCreateFeature.GetAnOrderByNumberAfterPost.verified.txt">
+    <None Update="Orders\OrderingCreateFeature.GetAnOrderByNumberAfterPost.verified.txt">
       <DependentUpon>OrderingCreateFeature.cs</DependentUpon>
     </None>
     <None Update="SampleData\UpdatedOrder.json">
