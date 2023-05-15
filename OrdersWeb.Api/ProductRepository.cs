@@ -14,9 +14,9 @@ public class ProductRepository
         _connection = connection;
     }
 
-    public object GetAll()
+    public async Task<IEnumerable<Product>> GetAll()
     {
-        return Enumerable.Empty<Product>();
+        return await _connection.QueryAsync<Product>($"SELECT * FROM Products");
     }
 
     public async Task<int> Add(Product product)

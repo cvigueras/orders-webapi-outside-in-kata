@@ -19,11 +19,11 @@ namespace OrdersWeb.Test
         }
 
         [Test]
-        public void HaveNoProductsInitially()
+        public async Task HaveNoProductsInitially()
         {
-            var result = _repository.GetAll();
+            var result = await _repository.GetAll();
 
-            result.Should().Be(Enumerable.Empty<Product>());
+            result.Should().BeEquivalentTo(Enumerable.Empty<Product>());
         }
 
         [Test]
