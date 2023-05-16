@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using OrdersWeb.Api.Products;
-using System.Data.SQLite;
 using OrdersWeb.Test.Start;
+using System.Data.SQLite;
 
 namespace OrdersWeb.Test.Products
 {

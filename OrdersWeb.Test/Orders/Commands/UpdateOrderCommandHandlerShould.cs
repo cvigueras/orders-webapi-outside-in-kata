@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using FluentAssertions;
 using NSubstitute;
-using OrdersWeb.Api;
 using OrdersWeb.Api.Orders;
 using OrdersWeb.Api.Orders.Commands;
 using OrdersWeb.Test.Start;

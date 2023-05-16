@@ -1,6 +1,6 @@
-﻿using System.Data.SQLite;
-using OrdersWeb.Api.Orders;
+﻿using OrdersWeb.Api.Orders;
 using OrdersWeb.Api.Products;
+using System.Data.SQLite;
 
 namespace OrdersWeb.Api.Start;
 

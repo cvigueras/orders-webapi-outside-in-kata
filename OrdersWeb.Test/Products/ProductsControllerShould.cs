@@ -1,5 +1,4 @@
-﻿using System.Data.SQLite;
-using AutoMapper;
+﻿using AutoMapper;
 using FluentAssertions;
 using NSubstitute;
 using OrdersWeb.Api.Products;
