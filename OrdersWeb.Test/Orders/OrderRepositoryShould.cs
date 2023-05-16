@@ -58,11 +58,11 @@ namespace OrdersWeb.Test.Orders
                 Customer = "New customer",
                 Number = givenOrder.Number,
             };
-            orderRepository.Update(expectedOrder);
+            await orderRepository.Update(expectedOrder);
 
-            var result = orderRepository.GetByOrderNumber(expectedOrder.Number);
+            var result = await orderRepository.GetByOrderNumber(expectedOrder.Number);
 
-            result.Result.Should().BeEquivalentTo(expectedOrder);
+            result.Should().BeEquivalentTo(expectedOrder);
         }
     }
 }
