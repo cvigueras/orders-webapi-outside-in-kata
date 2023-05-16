@@ -1,3 +1,5 @@
-﻿namespace OrdersWeb.Api.Orders;
+﻿using OrdersWeb.Api.Products;
 
-public record OrderCreateDto(string Number, string Customer, string Address);
+namespace OrdersWeb.Api.Orders;
+
+public record OrderCreateDto(string Number, string Customer, string Address, List<Product> Products);

@@ -3,6 +3,7 @@ using FluentAssertions;
 using NSubstitute;
 using OrdersWeb.Api.Orders;
 using OrdersWeb.Api.Orders.Commands;
+using OrdersWeb.Api.Products;
 using OrdersWeb.Test.Start;
 
 namespace OrdersWeb.Test.Orders.Commands
@@ -19,6 +20,7 @@ namespace OrdersWeb.Test.Orders.Commands
         {
             _startupTest = new StartupTest();
             var connection = _startupTest.GetConnection();
+            _startupTest.CreateSeed();
             _orderRepository = new OrderRepository(connection);
             _mapper = Substitute.For<IMapper>();
             _handler = new UpdateOrderCommandHandler(_orderRepository, _mapper);
@@ -32,6 +34,54 @@ namespace OrdersWeb.Test.Orders.Commands
             var updateOrder = await WhenOrderIsUpdated();
 
             ThenShowUpdatedOrderInformation(updateOrder);
+        }
+
+        [Test]
+        public async Task RetrieveOrderWithProductsAdded()
+        {
+            var givenOrder = new Order
+            {
+                Customer = "A customer",
+                Number = "ORD765190",
+                Address = "An Address",
+                Products = new List<Product>
+                {
+                    new()
+                    {
+                        Id = 1,
+                        Name = "Computer Monitor",
+                        Price = "100€",
+                    },
+                    new()
+                    {
+                        Id = 2,
+                        Name = "Keyboard",
+                        Price = "30€",
+                    }
+                }
+            };
+
+            var products = new List<Product>
+            {
+                new()
+                {
+                    Id = 1,
+                    Name = "Computer Monitor",
+                    Price = "100€",
+                },
+                new()
+                {
+                    Id = 2,
+                    Name = "Keyboard",
+                    Price = "30€",
+                }
+            };
+            var expectedOrder = new OrderReadDto("ORD765190", "A customer", "An Address", products);
+            await _orderRepository.Add(givenOrder);
+
+            var result = await _orderRepository.GetByOrderNumber(givenOrder.Number);
+
+            result.Should().BeEquivalentTo(expectedOrder);
         }
 
         private void ThenShowUpdatedOrderInformation(OrderUpdateDto orderUpdateDto)

@@ -3,6 +3,7 @@ using FluentAssertions;
 using NSubstitute;
 using OrdersWeb.Api.Orders;
 using OrdersWeb.Api.Orders.Commands;
+using OrdersWeb.Api.Products;
 using OrdersWeb.Test.Start;
 
 namespace OrdersWeb.Test.Orders.Commands
@@ -28,12 +29,13 @@ namespace OrdersWeb.Test.Orders.Commands
         public async Task CreateOrderWithBasicData()
         {
             var givenCreateOrder = new OrderCreateDto(Number: "ORD765190", Customer: "John Doe",
-                Address: "A Simple Street, 123");
+                Address: "A Simple Street, 123", null);
             var order = new Order
             {
                 Number = "ORD765190",
                 Customer = "John Doe",
                 Address = "A Simple Street, 123",
+                Products = null
             };
             _mapper.Map<Order>(givenCreateOrder).Returns(order);
 
@@ -41,7 +43,7 @@ namespace OrdersWeb.Test.Orders.Commands
             await _handler.Handle(command, default);
 
             var expectedOrder = new OrderReadDto(Number: "ORD765190", Customer: "John Doe",
-                Address: "A Simple Street, 123");
+                Address: "A Simple Street, 123", null);
             var result = await _orderRepository.GetByOrderNumber("ORD765190");
             result.Should().BeEquivalentTo(expectedOrder);
         }

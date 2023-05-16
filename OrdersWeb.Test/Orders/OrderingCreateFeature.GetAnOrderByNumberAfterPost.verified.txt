@@ -1,1 +1,1 @@
-﻿{"number":"ORD765190","customer":"John Doe","address":"A Simple Street, 123"}
+﻿{"number":"ORD765190","customer":"John Doe","address":"A Simple Street, 123","products":[]}

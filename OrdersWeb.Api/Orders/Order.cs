@@ -1,4 +1,6 @@
-﻿namespace OrdersWeb.Api.Orders;
+﻿using OrdersWeb.Api.Products;
+
+namespace OrdersWeb.Api.Orders;
 
 public class Order
 {
@@ -24,4 +26,5 @@ public class Order
     public string? Number { get; set; }
     public string? Customer { get; set; }
     public string? Address { get; set; }
+    public List<Product>? Products { get; set; }
 }

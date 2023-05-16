@@ -15,7 +15,8 @@ public class StartupTest : WebApplicationFactory<Program>
 
     public StartupTest()
     {
-        _connection = new SQLiteConnection("Data Source=:memory:");
+        //_connection = new SQLiteConnection("Data Source=:memory:");
+        _connection = new SQLiteConnection("Data Source=./OrdersTest.db");
 
         _connection.Open();
 
@@ -65,6 +66,11 @@ public class StartupTest : WebApplicationFactory<Program>
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
                 Name VARCHAR(200) NOT NULL,
                 Price VARCHAR(20) NOT NULL)"
+        );
+
+        _connection.Execute(@"CREATE TABLE IF NOT EXISTS OrdersProducts(
+                OrderNumber VARCHAR(10) NOT NULL,
+                ProductId INTEGER NOT NULL)"
         );
     }
 

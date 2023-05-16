@@ -23,6 +23,11 @@ namespace OrdersWeb.Api.Start
                 Price VARCHAR(20) NOT NULL)"
             );
 
+            connection.Execute(@"CREATE TABLE IF NOT EXISTS OrdersProducts(
+                OrderNumber VARCHAR(10) NOT NULL,
+                ProductId INTEGER NOT NULL)"
+            );
+
             if (!ExistTableProducts(connection))
             {
                 Seed(connection);

@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using System.Data.SQLite;
+using OrdersWeb.Api.Products;
 
 namespace OrdersWeb.Api.Orders;
 
@@ -16,6 +17,16 @@ public class OrderRepository : IOrderRepository
     {
         await _connection.ExecuteAsync($"INSERT INTO Orders(Customer, Address, Number) " +
                                        $"VALUES('{order.Customer}', '{order.Address}', '{order.Number}');");
+
+        if (order.Products != null)
+        {
+            foreach (var product in order.Products)
+            {
+                await _connection.ExecuteAsync(
+                    $"INSERT INTO OrdersProducts (OrderNumber, ProductId) VALUES ('{order.Number}', '{product.Id}');");
+            }
+        }
+
         return GetLastId();
     }
 
@@ -27,6 +38,12 @@ public class OrderRepository : IOrderRepository
     public async Task<Order> GetByOrderNumber(string number)
     {
         var orders = await _connection.QueryAsync<Order>($"SELECT * FROM ORDERS WHERE Number = '{number}'");
+        var products = await _connection.QueryAsync<Product>(
+            $"SELECT * FROM Products WHERE Id IN" +
+            "(SELECT OP.ProductId FROM Orders AS ORD " +
+            "JOIN OrdersProducts AS OP " +
+            "ON ORD.Number == OP.OrderNumber " +
+            $"WHERE Number = '{number}')");
         return orders.First();
     }
 

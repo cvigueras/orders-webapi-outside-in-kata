@@ -3,6 +3,7 @@ using FluentAssertions;
 using NSubstitute;
 using OrdersWeb.Api.Orders;
 using OrdersWeb.Api.Orders.Queries;
+using OrdersWeb.Api.Products;
 using OrdersWeb.Test.Start;
 
 namespace OrdersWeb.Test.Orders.Queris
@@ -25,23 +26,24 @@ namespace OrdersWeb.Test.Orders.Queris
         }
 
         [Test]
-        public void DisplayOrderRequested()
+        public async Task DisplayOrderRequested()
         {
             var givenOrder = new Order
             {
                 Number = "ORD765190",
                 Customer = "John Doe",
                 Address = "A Simple Street, 123",
+                Products = new List<Product>()
             };
             var expectedOrder = new OrderReadDto(Number: "ORD765190", Customer: "John Doe",
-                Address: "A Simple Street, 123");
+                Address: "A Simple Street, 123", null);
             _mapper.Map<OrderReadDto>(givenOrder).Returns(expectedOrder);
             _orderRepository.Add(givenOrder);
 
             var query = new GetOrderByNumberQuery(givenOrder.Number);
-            var result = _handler.Handle(query, default);
+            var result = await _handler.Handle(query, default);
 
-            result.Result.Should().BeEquivalentTo(expectedOrder);
+            result.Should().BeEquivalentTo(expectedOrder);
         }
     }
 }
