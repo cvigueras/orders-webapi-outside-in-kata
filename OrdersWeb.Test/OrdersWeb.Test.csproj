@@ -35,6 +35,9 @@
     <None Update="Orders\OrderingCreateFeature.GetAnOrderByNumberAfterPost.verified.txt">
       <DependentUpon>OrderingCreateFeature.cs</DependentUpon>
     </None>
+    <None Update="SampleData\OrderProducts.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="SampleData\UpdatedOrder.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
