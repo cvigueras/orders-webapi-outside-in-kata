@@ -1,7 +1,7 @@
 ﻿using OrdersWeb.Test.Start;
 using System.Text;
 
-namespace OrdersWeb.Test.Orders
+namespace OrdersWeb.Test.Orders.Fixtures
 {
     public class OrderClient
     {
@@ -9,7 +9,7 @@ namespace OrdersWeb.Test.Orders
 
         public OrderClient()
         {
-            _client = new StartupTest().CreateClient();
+            _client = new SetupFixture().CreateClient();
         }
 
         public async Task<string> GetJsonContent(string path)

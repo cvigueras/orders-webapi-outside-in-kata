@@ -11,7 +11,7 @@ namespace OrdersWeb.Test.Orders.Commands
 {
     public class CreateOrderCommandHandlerShould
     {
-        private StartupTest _startupTest;
+        private SetupFixture _setupFixture;
         private IOrderRepository _orderRepository;
         private IProductRepository _productRepository;
         private IMapper _mapper;
@@ -21,8 +21,8 @@ namespace OrdersWeb.Test.Orders.Commands
         [SetUp]
         public void SetUp()
         {
-            _startupTest = new StartupTest();
-            var connection = _startupTest.GetConnection();
+            _setupFixture = new SetupFixture();
+            var connection = _setupFixture.GetConnection();
             _orderRepository = new OrderRepository(connection);
             _productRepository = new ProductRepository(connection);
             _mapper = Substitute.For<IMapper>();

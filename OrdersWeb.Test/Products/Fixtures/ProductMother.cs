@@ -1,6 +1,6 @@
 ﻿using OrdersWeb.Api.Products;
 
-namespace OrdersWeb.Test.Products;
+namespace OrdersWeb.Test.Products.Fixtures;
 
 public class ProductMother
 {

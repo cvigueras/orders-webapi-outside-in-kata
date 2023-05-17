@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using OrdersWeb.Api.Products;
+using OrdersWeb.Test.Products.Fixtures;
 using OrdersWeb.Test.Start;
 using System.Data.SQLite;
 
@@ -13,7 +14,7 @@ namespace OrdersWeb.Test.Products
         [SetUp]
         public void Setup()
         {
-            var startupTest = new StartupTest();
+            var startupTest = new SetupFixture();
             connection = startupTest.GetConnection();
             _repository = new ProductRepository(connection);
         }

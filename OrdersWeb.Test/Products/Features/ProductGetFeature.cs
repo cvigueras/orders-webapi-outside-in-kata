@@ -1,18 +1,18 @@
 ﻿using OrdersWeb.Test.Start;
 
-namespace OrdersWeb.Test.Products
+namespace OrdersWeb.Test.Products.Features
 {
     public class ProductGetFeature
     {
         private HttpClient? _client;
-        private StartupTest _startupTest;
+        private SetupFixture _setupFixture;
 
         [SetUp]
         public void Setup()
         {
-            _startupTest = new StartupTest();
-            _client = _startupTest.CreateClient();
-            _startupTest.CreateSeed();
+            _setupFixture = new SetupFixture();
+            _client = _setupFixture.CreateClient();
+            _setupFixture.CreateSeed();
         }
 
         [Test]

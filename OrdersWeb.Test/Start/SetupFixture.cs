@@ -9,11 +9,11 @@ using System.Data.SQLite;
 
 namespace OrdersWeb.Test.Start;
 
-public class StartupTest : WebApplicationFactory<Program>
+public class SetupFixture : WebApplicationFactory<Program>
 {
     private readonly SQLiteConnection? _connection;
 
-    public StartupTest()
+    public SetupFixture()
     {
         _connection = new SQLiteConnection("Data Source=:memory:");
 

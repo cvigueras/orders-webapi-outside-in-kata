@@ -1,6 +1,6 @@
 ﻿using OrdersWeb.Api.Orders;
 
-namespace OrdersWeb.Test.Orders;
+namespace OrdersWeb.Test.Orders.Fixtures;
 
 public class OrderMother
 {

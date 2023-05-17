@@ -1,6 +1,7 @@
-﻿using OrdersWeb.Test.Start;
+﻿using OrdersWeb.Test.Orders.Fixtures;
+using OrdersWeb.Test.Start;
 
-namespace OrdersWeb.Test.Orders
+namespace OrdersWeb.Test.Orders.Features
 {
     public class OrderingAddProductsFeature
     {
@@ -9,7 +10,7 @@ namespace OrdersWeb.Test.Orders
         [SetUp]
         public void Setup()
         {
-            new StartupTest().CreateClient();
+            new SetupFixture().CreateClient();
             _orderClient = new OrderClient();
         }
 
