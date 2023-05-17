@@ -6,7 +6,7 @@ using OrdersWeb.Api.Orders.Queries;
 using OrdersWeb.Api.Products;
 using OrdersWeb.Test.Start;
 
-namespace OrdersWeb.Test.Orders.Queris
+namespace OrdersWeb.Test.Orders.Queries
 {
     public class GetOrderByNumberQueryShould
     {
@@ -24,7 +24,7 @@ namespace OrdersWeb.Test.Orders.Queris
             _orderRepository = new OrderRepository(connection);
             _productRepository = new ProductRepository(connection);
             _mapper = Substitute.For<IMapper>();
-            _handler = new GetOrderByNumberQueryHandler(_orderRepository,_productRepository, _mapper);
+            _handler = new GetOrderByNumberQueryHandler(_orderRepository, _productRepository, _mapper);
         }
 
         [Test]

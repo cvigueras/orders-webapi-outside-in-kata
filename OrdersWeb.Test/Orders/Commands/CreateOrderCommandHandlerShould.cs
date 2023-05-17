@@ -51,7 +51,7 @@ namespace OrdersWeb.Test.Orders.Commands
 
             var query = new GetOrderByNumberQuery(order.Number);
             var res = await _getOrderByNumberQueryHandler.Handle(query, default);
-            
+
             res.Should().BeEquivalentTo(expectedOrder);
         }
     }
