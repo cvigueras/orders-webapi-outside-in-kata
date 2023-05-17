@@ -10,20 +10,21 @@ namespace OrdersWeb.Test.Orders
     {
         private SQLiteConnection? connection;
         private Fixture fixture;
+        private OrderRepository _orderRepository;
+
         [SetUp]
         public void SetUp()
         {
             var startupTest = new StartupTest();
             connection = startupTest.GetConnection();
+            _orderRepository = new OrderRepository(connection);
             fixture = new Fixture();
         }
 
         [Test]
         public void RetrieveEmptyOrderWhenNotExists()
         {
-            var orderRepository = new OrderRepository(connection);
-
-            var action = () => orderRepository.GetByOrderNumber("ORD000000").Result;
+            var action = () => _orderRepository.GetByOrderNumber("ORD000000").Result;
 
             action.Should().Throw<InvalidOperationException>();
         }
@@ -31,11 +32,10 @@ namespace OrdersWeb.Test.Orders
         [Test]
         public async Task RetrieveAnExistingOrder()
         {
-            var orderRepository = new OrderRepository(connection);
             var order = fixture.Create<Order>();
-            await orderRepository.Add(order);
+            await _orderRepository.Add(order);
 
-            var result = await orderRepository.GetByOrderNumber(order.Number);
+            var result = await _orderRepository.GetByOrderNumber(order.Number);
 
             result.Should().BeEquivalentTo(order);
         }
@@ -43,14 +43,22 @@ namespace OrdersWeb.Test.Orders
         [Test]
         public async Task UpdateAnOrder()
         {
-            var orderRepository = new OrderRepository(connection);
+            var expectedOrder = await GivenAnUpdatedOrder();
+
+            var result = await _orderRepository.GetByOrderNumber(expectedOrder.Number);
+
+            result.Should().BeEquivalentTo(expectedOrder);
+        }
+
+        private async Task<Order> GivenAnUpdatedOrder()
+        {
             var givenOrder = new Order
             {
                 Number = "ORD445190",
                 Customer = "John Doe",
                 Address = "A Simple Street, 123",
             };
-            var lastId = await orderRepository.Add(givenOrder);
+            var lastId = await _orderRepository.Add(givenOrder);
             var expectedOrder = new Order
             {
                 Id = lastId,
@@ -58,11 +66,8 @@ namespace OrdersWeb.Test.Orders
                 Customer = "New customer",
                 Number = givenOrder.Number,
             };
-            await orderRepository.Update(expectedOrder);
-
-            var result = await orderRepository.GetByOrderNumber(expectedOrder.Number);
-
-            result.Should().BeEquivalentTo(expectedOrder);
+            await _orderRepository.Update(expectedOrder);
+            return expectedOrder;
         }
     }
 }
