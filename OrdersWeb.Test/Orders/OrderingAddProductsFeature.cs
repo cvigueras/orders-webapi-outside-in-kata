@@ -39,7 +39,5 @@ namespace OrdersWeb.Test.Orders
             var result = response.Content.ReadAsStringAsync().Result;
             await Verify(result);
         }
-
-
     }
 }

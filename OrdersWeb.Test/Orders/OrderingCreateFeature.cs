@@ -16,19 +16,27 @@ namespace OrdersWeb.Test.Orders
         [Test]
         public async Task GetAnOrderByNumberAfterPost()
         {
-            var jsonPost = await OrderClient.GetJsonContent("./SampleData/Order.json");
-            var response = await _client!.PostAsync("/Orders/",
-                new StringContent(jsonPost,
-                    Encoding.Default,
-                    "application/json"));
-            response.EnsureSuccessStatusCode();
-            response = await _client.GetAsync("/Orders/ORD765190");
-            response.EnsureSuccessStatusCode();
-            var result = response.Content.ReadAsStringAsync().Result;
+            await GivenAnOrderWithSimpleData();
 
-            await Verify(result);
+            var result = await WhenGetOrderContent();
+
+            await ThenVerifyTheOrderContent(result);
+        }
+        private async Task GivenAnOrderWithSimpleData()
+        {
+            var jsonPost = await OrderClient.GetJsonContent("./SampleData/Order.json");
+            await OrderClient.PostOrder(jsonPost, _client);
         }
 
+        private async Task<string> WhenGetOrderContent()
+        {
+            var response = await OrderClient.GetOrder(_client);
+            return response.Content.ReadAsStringAsync().Result;
+        }
 
+        private static async Task ThenVerifyTheOrderContent(string result)
+        {
+            await Verify(result);
+        }
     }
 }
