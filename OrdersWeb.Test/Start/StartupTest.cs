@@ -15,8 +15,7 @@ public class StartupTest : WebApplicationFactory<Program>
 
     public StartupTest()
     {
-        //_connection = new SQLiteConnection("Data Source=:memory:");
-        _connection = new SQLiteConnection("Data Source=./OrdersTest.db");
+        _connection = new SQLiteConnection("Data Source=:memory:");
 
         _connection.Open();
 
@@ -25,32 +24,35 @@ public class StartupTest : WebApplicationFactory<Program>
 
     public async Task CreateSeed()
     {
-        var productList = new List<Product>
+        if (!ExistTableProducts(_connection))
         {
-            new()
+            var productList = new List<Product>
             {
-                Name = "Computer Monitor",
-                Price = "100€",
-            },
-            new()
-            {
-                Name = "Keyboard",
-                Price = "30€",
-            },
-            new()
-            {
-                Name = "Mouse",
-                Price = "15€",
-            },
-            new()
-            {
-                Name = "Router",
-                Price = "70€",
-            },
-        };
+                new()
+                {
+                    Name = "Computer Monitor",
+                    Price = "100€",
+                },
+                new()
+                {
+                    Name = "Keyboard",
+                    Price = "30€",
+                },
+                new()
+                {
+                    Name = "Mouse",
+                    Price = "15€",
+                },
+                new()
+                {
+                    Name = "Router",
+                    Price = "70€",
+                },
+            };
 
-        await _connection.ExecuteAsync($"INSERT INTO Products(Name, Price) " +
-                                       $"VALUES(@Name, @Price)", productList);
+            await _connection.ExecuteAsync($"INSERT INTO Products(Name, Price) " +
+                                           $"VALUES(@Name, @Price)", productList);
+        }
     }
 
     private void CreateDataBase()
@@ -89,5 +91,11 @@ public class StartupTest : WebApplicationFactory<Program>
     public SQLiteConnection? GetConnection()
     {
         return _connection;
+    }
+
+    private static bool ExistTableProducts(SQLiteConnection connection)
+    {
+        var exist = connection.Query<dynamic>("SELECT COUNT(*) as Count FROM Products");
+        return exist.Single().Count > 1;
     }
 }

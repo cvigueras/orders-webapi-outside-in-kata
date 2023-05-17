@@ -31,9 +31,9 @@ namespace OrdersWeb.Test.Orders.Commands
         {
             GivenAPostOrder();
 
-            var updateOrder = await WhenOrderIsUpdated();
+            await WhenOrderIsUpdated();
 
-            ThenShowUpdatedOrderInformation(updateOrder);
+            await ThenShowUpdatedOrderInformation();
         }
 
         [Test]
@@ -84,16 +84,17 @@ namespace OrdersWeb.Test.Orders.Commands
             result.Should().BeEquivalentTo(expectedOrder);
         }
 
-        private void ThenShowUpdatedOrderInformation(OrderUpdateDto orderUpdateDto)
+        private async Task ThenShowUpdatedOrderInformation()
         {
-            var result = _orderRepository.GetByOrderNumber(orderUpdateDto.Number);
-            result.Result.Should().BeEquivalentTo(orderUpdateDto);
+            var expectedOrder = new OrderReadDto("ORD765190", "New John Doe", "A new Simple Street, 123", new List<Product>());
+            var result = await _orderRepository.GetByOrderNumber(expectedOrder.Number);
+            result.Should().BeEquivalentTo(expectedOrder);
         }
 
-        private async Task<OrderUpdateDto> WhenOrderIsUpdated()
+        private async Task WhenOrderIsUpdated()
         {
             var givenUpdateOrder = new OrderUpdateDto(Id: 1, Number: "ORD765190", Customer: "New John Doe",
-                Address: "A new Simple Street, 123");
+                Address: "A new Simple Street, 123", new List<int>());
 
             var order = new Order
             {
@@ -105,7 +106,6 @@ namespace OrdersWeb.Test.Orders.Commands
             _mapper.Map<Order>(givenUpdateOrder).Returns(order);
             var command = new UpdateOrderCommand(givenUpdateOrder);
             await _handler.Handle(command, default);
-            return givenUpdateOrder;
         }
 
         private void GivenAPostOrder()

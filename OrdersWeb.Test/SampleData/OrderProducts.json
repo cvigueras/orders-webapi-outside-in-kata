@@ -2,14 +2,5 @@
   "number": "ORD765190",
   "customer": "New John Doe",
   "address": "Update Simple Street, 123",
-  "products": [
-    {
-      "name": "Computer Monitor",
-      "price": "100€"
-    },
-    {
-      "name": "Keyboard",
-      "price": "30€"
-    }
-  ]
+  "ProductsId": [1,2]
 }

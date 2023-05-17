@@ -18,7 +18,7 @@ public class OrderRepository : IOrderRepository
         await _connection.ExecuteAsync($"INSERT INTO Orders(Customer, Address, Number) " +
                                        $"VALUES('{order.Customer}', '{order.Address}', '{order.Number}');");
 
-        if (order.Products != null)
+        if (order.Products != null && order.Products.Any())
         {
             foreach (var product in order.Products)
             {
@@ -38,12 +38,12 @@ public class OrderRepository : IOrderRepository
     public async Task<Order> GetByOrderNumber(string number)
     {
         var orders = await _connection.QueryAsync<Order>($"SELECT * FROM ORDERS WHERE Number = '{number}'");
-        var products = await _connection.QueryAsync<Product>(
-            $"SELECT * FROM Products WHERE Id IN" +
-            "(SELECT OP.ProductId FROM Orders AS ORD " +
-            "JOIN OrdersProducts AS OP " +
-            "ON ORD.Number == OP.OrderNumber " +
-            $"WHERE Number = '{number}')");
+        var products = await _connection.QueryAsync<Product>($"SELECT * FROM Products WHERE Id IN" +
+                                                             "(SELECT OP.ProductId FROM Orders AS ORD " +
+                                                             "JOIN OrdersProducts AS OP " +
+                                                             "ON ORD.Number == OP.OrderNumber " +
+                                                             $"WHERE Number = '{number}')");
+        orders.First().Products = products.ToList();
         return orders.First();
     }
 

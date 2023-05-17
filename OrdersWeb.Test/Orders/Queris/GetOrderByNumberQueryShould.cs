@@ -36,9 +36,9 @@ namespace OrdersWeb.Test.Orders.Queris
                 Products = new List<Product>()
             };
             var expectedOrder = new OrderReadDto(Number: "ORD765190", Customer: "John Doe",
-                Address: "A Simple Street, 123", null);
+                Address: "A Simple Street, 123", new List<Product>());
             _mapper.Map<OrderReadDto>(givenOrder).Returns(expectedOrder);
-            _orderRepository.Add(givenOrder);
+            await _orderRepository.Add(givenOrder);
 
             var query = new GetOrderByNumberQuery(givenOrder.Number);
             var result = await _handler.Handle(query, default);

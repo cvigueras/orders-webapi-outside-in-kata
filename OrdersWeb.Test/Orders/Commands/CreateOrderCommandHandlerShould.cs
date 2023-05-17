@@ -43,7 +43,7 @@ namespace OrdersWeb.Test.Orders.Commands
             await _handler.Handle(command, default);
 
             var expectedOrder = new OrderReadDto(Number: "ORD765190", Customer: "John Doe",
-                Address: "A Simple Street, 123", null);
+                Address: "A Simple Street, 123", new List<Product>());
             var result = await _orderRepository.GetByOrderNumber("ORD765190");
             result.Should().BeEquivalentTo(expectedOrder);
         }
