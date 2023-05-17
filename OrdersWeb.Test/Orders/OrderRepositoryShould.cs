@@ -52,20 +52,9 @@ namespace OrdersWeb.Test.Orders
 
         private async Task<Order> GivenAnUpdatedOrder()
         {
-            var givenOrder = new Order
-            {
-                Number = "ORD445190",
-                Customer = "John Doe",
-                Address = "A Simple Street, 123",
-            };
+            var givenOrder = OrderMother.JohnDoeAsCustomer();
             var lastId = await _orderRepository.Add(givenOrder);
-            var expectedOrder = new Order
-            {
-                Id = lastId,
-                Address = "New Address",
-                Customer = "New customer",
-                Number = givenOrder.Number,
-            };
+            var expectedOrder = OrderMother.NewCustomerAsCustomer(lastId, givenOrder);
             await _orderRepository.Update(expectedOrder);
             return expectedOrder;
         }

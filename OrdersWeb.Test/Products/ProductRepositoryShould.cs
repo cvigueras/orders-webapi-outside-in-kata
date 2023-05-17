@@ -29,11 +29,7 @@ namespace OrdersWeb.Test.Products
         [Test]
         public async Task RetrieveAnExistingProduct()
         {
-            var givenProduct = new Product
-            {
-                Name = "Product1",
-                Price = "100€",
-            };
+            var givenProduct = ProductMother.ComputerMonitorAsProduct();
             var id = await _repository.Add(givenProduct);
 
             var result = await _repository.GetById(id);
@@ -41,7 +37,7 @@ namespace OrdersWeb.Test.Products
             var expectedProduct = new Product
             {
                 Id = id,
-                Name = "Product1",
+                Name = "Computer Monitor",
                 Price = "100€",
             };
             result.Should().BeEquivalentTo(expectedProduct);
