@@ -3,6 +3,7 @@ using FluentAssertions;
 using NSubstitute;
 using OrdersWeb.Api.Orders;
 using OrdersWeb.Api.Orders.Commands;
+using OrdersWeb.Api.Orders.Queries;
 using OrdersWeb.Api.Products;
 using OrdersWeb.Test.Start;
 
@@ -12,8 +13,10 @@ namespace OrdersWeb.Test.Orders.Commands
     {
         private StartupTest _startupTest;
         private IOrderRepository _orderRepository;
+        private IProductRepository _productRepository;
         private IMapper _mapper;
-        private UpdateOrderCommandHandler _handler;
+        private UpdateOrderCommandHandler _updateOrderCommandHandler;
+        private GetOrderByNumberQueryHandler _getOrderByNumberQueryHandler;
 
         [SetUp]
         public void SetUp()
@@ -22,8 +25,11 @@ namespace OrdersWeb.Test.Orders.Commands
             var connection = _startupTest.GetConnection();
             _startupTest.CreateSeed();
             _orderRepository = new OrderRepository(connection);
+            _productRepository = new ProductRepository(connection);
             _mapper = Substitute.For<IMapper>();
-            _handler = new UpdateOrderCommandHandler(_orderRepository, _mapper);
+            _updateOrderCommandHandler = new UpdateOrderCommandHandler(_orderRepository, _mapper);
+            _getOrderByNumberQueryHandler =
+                new GetOrderByNumberQueryHandler(_orderRepository, _productRepository, _mapper);
         }
 
         [Test]
@@ -79,7 +85,8 @@ namespace OrdersWeb.Test.Orders.Commands
             var expectedOrder = new OrderReadDto("ORD765190", "A customer", "An Address", products);
             await _orderRepository.Add(givenOrder);
 
-            var result = await _orderRepository.GetByOrderNumber(givenOrder.Number);
+            var query = new GetOrderByNumberQuery(givenOrder.Number);
+            var result = await _getOrderByNumberQueryHandler.Handle(query, default);
 
             result.Should().BeEquivalentTo(expectedOrder);
         }
@@ -87,7 +94,8 @@ namespace OrdersWeb.Test.Orders.Commands
         private async Task ThenShowUpdatedOrderInformation()
         {
             var expectedOrder = new OrderReadDto("ORD765190", "New John Doe", "A new Simple Street, 123", new List<Product>());
-            var result = await _orderRepository.GetByOrderNumber(expectedOrder.Number);
+            var query = new GetOrderByNumberQuery(expectedOrder.Number);
+            var result = await _getOrderByNumberQueryHandler.Handle(query, default);
             result.Should().BeEquivalentTo(expectedOrder);
         }
 
@@ -105,7 +113,7 @@ namespace OrdersWeb.Test.Orders.Commands
             };
             _mapper.Map<Order>(givenUpdateOrder).Returns(order);
             var command = new UpdateOrderCommand(givenUpdateOrder);
-            await _handler.Handle(command, default);
+            await _updateOrderCommandHandler.Handle(command, default);
         }
 
         private void GivenAPostOrder()

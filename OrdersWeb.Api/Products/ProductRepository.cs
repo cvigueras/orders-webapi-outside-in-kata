@@ -30,6 +30,15 @@ public class ProductRepository : IProductRepository
         return products.First();
     }
 
+    public async Task<IEnumerable<Product>> GetProductsOrder(string orderNumber)
+    {
+        return (await _connection.QueryAsync<Product>($"SELECT * FROM Products WHERE Id IN" +
+                                                             "(SELECT OP.ProductId FROM Orders AS ORD " +
+                                                             "JOIN OrdersProducts AS OP " +
+                                                             "ON ORD.Number == OP.OrderNumber " +
+                                                             $"WHERE Number = '{orderNumber}')")).ToList();
+    }
+
     private int GetLastId()
     {
         return _connection.ExecuteScalar<int>("SELECT MAX(id) FROM Products");

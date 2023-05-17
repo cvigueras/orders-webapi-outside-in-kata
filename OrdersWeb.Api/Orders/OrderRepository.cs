@@ -30,26 +30,18 @@ public class OrderRepository : IOrderRepository
         return GetLastId();
     }
 
-    private int GetLastId()
-    {
-        return _connection.ExecuteScalar<int>("SELECT MAX(id) FROM Orders");
-    }
-
     public async Task<Order> GetByOrderNumber(string number)
     {
-        var orders = await _connection.QueryAsync<Order>($"SELECT * FROM ORDERS WHERE Number = '{number}'");
-        var products = await _connection.QueryAsync<Product>($"SELECT * FROM Products WHERE Id IN" +
-                                                             "(SELECT OP.ProductId FROM Orders AS ORD " +
-                                                             "JOIN OrdersProducts AS OP " +
-                                                             "ON ORD.Number == OP.OrderNumber " +
-                                                             $"WHERE Number = '{number}')");
-        orders.First().Products = products.ToList();
-        return orders.First();
+        return (await _connection.QueryAsync<Order>($"SELECT * FROM ORDERS WHERE Number = '{number}'")).First();
     }
 
     public async Task Update(Order order)
     {
         await _connection.ExecuteAsync($"UPDATE Orders SET Customer = '{order.Customer}', Address = '{order.Address}'" +
                                        $" WHERE Number = '{order.Number}'");
+    }
+    private int GetLastId()
+    {
+        return _connection.ExecuteScalar<int>("SELECT MAX(id) FROM Orders");
     }
 }

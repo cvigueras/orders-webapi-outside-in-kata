@@ -12,6 +12,7 @@ namespace OrdersWeb.Test.Orders.Queris
     {
         private StartupTest _startupTest;
         private IOrderRepository _orderRepository;
+        private IProductRepository _productRepository;
         private IMapper _mapper;
         private GetOrderByNumberQueryHandler _handler;
 
@@ -21,8 +22,9 @@ namespace OrdersWeb.Test.Orders.Queris
             _startupTest = new StartupTest();
             var connection = _startupTest.GetConnection();
             _orderRepository = new OrderRepository(connection);
+            _productRepository = new ProductRepository(connection);
             _mapper = Substitute.For<IMapper>();
-            _handler = new GetOrderByNumberQueryHandler(_orderRepository, _mapper);
+            _handler = new GetOrderByNumberQueryHandler(_orderRepository,_productRepository, _mapper);
         }
 
         [Test]
