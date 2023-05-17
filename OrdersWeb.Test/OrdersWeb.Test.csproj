@@ -35,13 +35,13 @@
     <None Update="Orders\Features\OrderingCreateFeature.GetAnOrderByNumberAfterPost.verified.txt">
       <DependentUpon>OrderingCreateFeature.cs</DependentUpon>
     </None>
-    <None Update="SampleData\OrderProducts.json">
+    <None Update="Orders\Fixtures\OrderProducts.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="SampleData\UpdatedOrder.json">
+    <None Update="Orders\Fixtures\UpdatedOrder.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="SampleData\Order.json">
+    <None Update="Orders\Fixtures\Order.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

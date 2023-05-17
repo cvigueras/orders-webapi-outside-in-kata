@@ -1,13 +1,13 @@
-﻿using Dapper;
+﻿using System.Data.SQLite;
+using Dapper;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OrdersWeb.Api;
 using OrdersWeb.Api.Orders;
 using OrdersWeb.Api.Products;
-using System.Data.SQLite;
 
-namespace OrdersWeb.Test.Start;
+namespace OrdersWeb.Test.Startup;
 
 public class SetupFixture : WebApplicationFactory<Program>
 {

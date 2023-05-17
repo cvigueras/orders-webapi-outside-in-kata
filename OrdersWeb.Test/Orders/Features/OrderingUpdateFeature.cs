@@ -1,5 +1,5 @@
 ﻿using OrdersWeb.Test.Orders.Fixtures;
-using OrdersWeb.Test.Start;
+using OrdersWeb.Test.Startup;
 
 namespace OrdersWeb.Test.Orders.Features
 {
@@ -26,9 +26,9 @@ namespace OrdersWeb.Test.Orders.Features
 
         private async Task GivenAnUpdatedOrder()
         {
-            var jsonPost = await _orderClient.GetJsonContent("./SampleData/Order.json");
+            var jsonPost = await _orderClient.GetJsonContent("./Orders/Fixtures/Order.json");
             await _orderClient.PostOrder(jsonPost);
-            var jsonPut = await _orderClient.GetJsonContent("./SampleData/UpdatedOrder.json");
+            var jsonPut = await _orderClient.GetJsonContent("./Orders/Fixtures/UpdatedOrder.json");
             await _orderClient.PutOrder(jsonPut, "ORD765190");
         }
 

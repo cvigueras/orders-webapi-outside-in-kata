@@ -2,8 +2,8 @@
 using FluentAssertions;
 using OrdersWeb.Api.Orders;
 using OrdersWeb.Test.Orders.Fixtures;
-using OrdersWeb.Test.Start;
 using System.Data.SQLite;
+using OrdersWeb.Test.Startup;
 
 namespace OrdersWeb.Test.Orders
 {

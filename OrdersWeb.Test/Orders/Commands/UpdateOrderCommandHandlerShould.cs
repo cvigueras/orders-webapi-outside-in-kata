@@ -5,7 +5,7 @@ using OrdersWeb.Api.Orders;
 using OrdersWeb.Api.Orders.Commands;
 using OrdersWeb.Api.Orders.Queries;
 using OrdersWeb.Api.Products;
-using OrdersWeb.Test.Start;
+using OrdersWeb.Test.Startup;
 
 namespace OrdersWeb.Test.Orders.Commands
 {
