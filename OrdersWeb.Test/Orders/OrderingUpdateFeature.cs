@@ -4,12 +4,13 @@ namespace OrdersWeb.Test.Orders
 {
     public class OrderingUpdateFeature
     {
-        private HttpClient? _client;
+        private OrderClient _orderClient;
 
         [SetUp]
         public void Setup()
         {
-            _client = new StartupTest().CreateClient();
+            new StartupTest().CreateClient();
+            _orderClient = new OrderClient();
         }
 
         [Test]
@@ -24,15 +25,15 @@ namespace OrdersWeb.Test.Orders
 
         private async Task GivenAnUpdatedOrder()
         {
-            var jsonPost = await OrderClient.GetJsonContent("./SampleData/Order.json");
-            await OrderClient.PostOrder(jsonPost, _client);
-            var jsonPut = await OrderClient.GetJsonContent("./SampleData/UpdatedOrder.json");
-            await OrderClient.PutOrder(jsonPut, _client);
+            var jsonPost = await _orderClient.GetJsonContent("./SampleData/Order.json");
+            await _orderClient.PostOrder(jsonPost);
+            var jsonPut = await _orderClient.GetJsonContent("./SampleData/UpdatedOrder.json");
+            await _orderClient.PutOrder(jsonPut, "ORD765190");
         }
 
         private async Task<string> WhenGetOrderUpdated()
         {
-            var response = await OrderClient.GetOrder(_client);
+            var response = await _orderClient.GetOrder();
             return response.Content.ReadAsStringAsync().Result;
         }
 
