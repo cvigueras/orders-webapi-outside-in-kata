@@ -16,8 +16,8 @@ namespace OrdersWeb.Test.Orders
         [Test]
         public async Task UpdateAnExistingOrderByNumberAfterPost()
         {
-            var jsonPost = await GivenPostJson();
-            var jsonPut = await GivenPutJson();
+            var jsonPost = await OrderClient.GetJsonContent("./SampleData/Order.json");
+            var jsonPut = await OrderClient.GetJsonContent("./SampleData/UpdatedOrder.json");
             var response = await _client!.PostAsync("/Orders/",
                 new StringContent(jsonPost,
                     Encoding.Default,
@@ -35,16 +35,6 @@ namespace OrdersWeb.Test.Orders
             await Verify(result);
         }
 
-        private async Task<string> GivenPutJson()
-        {
-            using var jsonReader = new StreamReader("./SampleData/UpdatedOrder.json");
-            return await jsonReader.ReadToEndAsync();
-        }
 
-        private async Task<string> GivenPostJson()
-        {
-            using var jsonReader = new StreamReader("./SampleData/Order.json");
-            return await jsonReader.ReadToEndAsync();
-        }
     }
 }
