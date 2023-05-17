@@ -1,5 +1,4 @@
 ﻿using OrdersWeb.Test.Start;
-using System.Text;
 
 namespace OrdersWeb.Test.Orders
 {
@@ -22,6 +21,7 @@ namespace OrdersWeb.Test.Orders
 
             await ThenVerifyTheOrderContent(result);
         }
+
         private async Task GivenAnOrderWithSimpleData()
         {
             var jsonPost = await OrderClient.GetJsonContent("./SampleData/Order.json");

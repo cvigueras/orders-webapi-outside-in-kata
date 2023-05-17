@@ -1,5 +1,4 @@
 ﻿using OrdersWeb.Test.Start;
-using System.Text;
 
 namespace OrdersWeb.Test.Orders
 {
@@ -16,25 +15,30 @@ namespace OrdersWeb.Test.Orders
         [Test]
         public async Task UpdateAnExistingOrderByNumberAfterPost()
         {
-            var jsonPost = await OrderClient.GetJsonContent("./SampleData/Order.json");
-            var jsonPut = await OrderClient.GetJsonContent("./SampleData/UpdatedOrder.json");
-            var response = await _client!.PostAsync("/Orders/",
-                new StringContent(jsonPost,
-                    Encoding.Default,
-                    "application/json"));
-            response.EnsureSuccessStatusCode();
-            response = await _client!.PutAsync("/Orders/ORD765190",
-                new StringContent(jsonPut,
-                    Encoding.Default,
-                    "application/json"));
-            response.EnsureSuccessStatusCode();
-            response = await _client.GetAsync("/Orders/ORD765190");
-            response.EnsureSuccessStatusCode();
-            var result = response.Content.ReadAsStringAsync().Result;
+            await GivenAnUpdatedOrder();
 
-            await Verify(result);
+            var result = await WhenGetOrderUpdated();
+
+            await ThenVerifyTheOrderContent(result);
         }
 
+        private async Task GivenAnUpdatedOrder()
+        {
+            var jsonPost = await OrderClient.GetJsonContent("./SampleData/Order.json");
+            await OrderClient.PostOrder(jsonPost, _client);
+            var jsonPut = await OrderClient.GetJsonContent("./SampleData/UpdatedOrder.json");
+            await OrderClient.PutOrder(jsonPut, _client);
+        }
 
+        private async Task<string> WhenGetOrderUpdated()
+        {
+            var response = await OrderClient.GetOrder(_client);
+            return response.Content.ReadAsStringAsync().Result;
+        }
+
+        private static async Task ThenVerifyTheOrderContent(string result)
+        {
+            await Verify(result);
+        }
     }
 }
