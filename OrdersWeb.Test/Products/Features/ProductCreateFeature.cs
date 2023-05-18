@@ -19,7 +19,7 @@ namespace OrdersWeb.Test.Products.Features
             var jsonPost = await _client.GetJsonContent("./Products/Fixtures/Product.json");
             await _client.Post(jsonPost, "/Products/");
 
-            var response = await _client.Get("/Orders/ORD765190");
+            var response = await _client.Get("/Products/5");
             var result = response.Content.ReadAsStringAsync().Result;
 
             await Verify(result);
