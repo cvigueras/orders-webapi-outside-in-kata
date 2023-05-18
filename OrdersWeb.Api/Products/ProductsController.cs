@@ -19,6 +19,11 @@ public class ProductsController : ControllerBase
     [HttpGet]
     public async Task<IEnumerable<ProductReadDto>> Get()
     {
+        return await Handle();
+    }
+
+    private async Task<IEnumerable<ProductReadDto>> Handle()
+    {
         var products = await _productRepository.GetAll();
         return _mapper.Map<IEnumerable<ProductReadDto>>(products);
     }

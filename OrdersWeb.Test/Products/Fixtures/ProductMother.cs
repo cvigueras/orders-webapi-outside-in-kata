@@ -4,7 +4,6 @@ namespace OrdersWeb.Test.Products.Fixtures;
 
 public class ProductMother
 {
-
     public static Product KeyboardAsProduct()
     {
         return new()
