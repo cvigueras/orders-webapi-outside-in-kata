@@ -1,13 +1,14 @@
 ﻿using OrdersWeb.Test.Startup;
 using System.Text;
 
-namespace OrdersWeb.Test.Orders.Fixtures
+namespace OrdersWeb.Test
 {
-    public class OrderClient
+    public class Client
     {
-        private HttpClient? _client;
+        private readonly HttpClient? _client;
+        private const string MediaType = "application/json";
 
-        public OrderClient()
+        public Client()
         {
             _client = new SetupFixture().CreateClient();
         }
@@ -18,27 +19,27 @@ namespace OrdersWeb.Test.Orders.Fixtures
             return await jsonReader.ReadToEndAsync();
         }
 
-        public async Task PostOrder(string json)
+        public async Task Post(string json, string requestUri)
         {
-            var response = await _client!.PostAsync("/Orders/",
+            var response = await _client!.PostAsync(requestUri,
                 new StringContent(json,
                     Encoding.Default,
-                    "application/json"));
+                    MediaType));
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task PutOrder(string jsonPut, string orderNumber)
+        public async Task Put(string jsonPut, string requestUri)
         {
-            var response = await _client!.PutAsync($"/Orders/{orderNumber}",
+            var response = await _client!.PutAsync(requestUri,
                 new StringContent(jsonPut,
                     Encoding.Default,
-                    "application/json"));
+                    MediaType));
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task<HttpResponseMessage> GetOrder()
+        public async Task<HttpResponseMessage> Get(string requestUri)
         {
-            var response = await _client!.GetAsync("/Orders/ORD765190");
+            var response = await _client!.GetAsync(requestUri);
             response.EnsureSuccessStatusCode();
             return response;
         }

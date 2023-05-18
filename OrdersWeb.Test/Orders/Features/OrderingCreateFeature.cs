@@ -1,17 +1,16 @@
-﻿using OrdersWeb.Test.Orders.Fixtures;
-using OrdersWeb.Test.Startup;
+﻿using OrdersWeb.Test.Startup;
 
 namespace OrdersWeb.Test.Orders.Features
 {
     public class OrderingCreateFeature
     {
-        private OrderClient _orderClient;
+        private Client _client;
 
         [SetUp]
         public void Setup()
         {
             new SetupFixture().CreateClient();
-            _orderClient = new OrderClient();
+            _client = new Client();
         }
 
         [Test]
@@ -26,13 +25,13 @@ namespace OrdersWeb.Test.Orders.Features
 
         private async Task GivenAnOrderWithSimpleData()
         {
-            var jsonPost = await _orderClient.GetJsonContent("./Orders/Fixtures/Order.json");
-            await _orderClient.PostOrder(jsonPost);
+            var jsonPost = await _client.GetJsonContent("./Orders/Fixtures/Order.json");
+            await _client.Post(jsonPost, "/Orders/");
         }
 
         private async Task<string> WhenGetOrderContent()
         {
-            var response = await _orderClient.GetOrder();
+            var response = await _client.Get("/Orders/ORD765190");
             return response.Content.ReadAsStringAsync().Result;
         }
 

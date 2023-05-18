@@ -1,17 +1,16 @@
-﻿using OrdersWeb.Test.Orders.Fixtures;
-using OrdersWeb.Test.Startup;
+﻿using OrdersWeb.Test.Startup;
 
 namespace OrdersWeb.Test.Orders.Features
 {
     public class OrderingUpdateFeature
     {
-        private OrderClient _orderClient;
+        private Client _client;
 
         [SetUp]
         public void Setup()
         {
             new SetupFixture().CreateClient();
-            _orderClient = new OrderClient();
+            _client = new Client();
         }
 
         [Test]
@@ -26,15 +25,15 @@ namespace OrdersWeb.Test.Orders.Features
 
         private async Task GivenAnUpdatedOrder()
         {
-            var jsonPost = await _orderClient.GetJsonContent("./Orders/Fixtures/Order.json");
-            await _orderClient.PostOrder(jsonPost);
-            var jsonPut = await _orderClient.GetJsonContent("./Orders/Fixtures/UpdatedOrder.json");
-            await _orderClient.PutOrder(jsonPut, "ORD765190");
+            var jsonPost = await _client.GetJsonContent("./Orders/Fixtures/Order.json");
+            await _client.Post(jsonPost, "/Orders/");
+            var jsonPut = await _client.GetJsonContent("./Orders/Fixtures/UpdatedOrder.json");
+            await _client.Put(jsonPut, $"/Orders/{"ORD765190"}");
         }
 
         private async Task<string> WhenGetOrderUpdated()
         {
-            var response = await _orderClient.GetOrder();
+            var response = await _client.Get("/Orders/ORD765190");
             return response.Content.ReadAsStringAsync().Result;
         }
 
