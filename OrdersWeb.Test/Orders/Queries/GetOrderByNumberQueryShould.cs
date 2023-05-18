@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using FluentAssertions;
 using NSubstitute;
-using OrdersWeb.Api.Orders;
+using OrdersWeb.Api.Orders.Models;
 using OrdersWeb.Api.Orders.Queries;
-using OrdersWeb.Api.Products;
+using OrdersWeb.Api.Orders.Repositories;
+using OrdersWeb.Api.Products.Models;
+using OrdersWeb.Api.Products.Repositories;
 using OrdersWeb.Test.Startup;
 
 namespace OrdersWeb.Test.Orders.Queries

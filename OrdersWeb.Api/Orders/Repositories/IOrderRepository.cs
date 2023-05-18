@@ -1,4 +1,6 @@
-﻿namespace OrdersWeb.Api.Orders;
+﻿using OrdersWeb.Api.Orders.Models;
+
+namespace OrdersWeb.Api.Orders.Repositories;
 
 public interface IOrderRepository
 {

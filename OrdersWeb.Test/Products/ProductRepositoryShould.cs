@@ -1,8 +1,9 @@
 ﻿using FluentAssertions;
-using OrdersWeb.Api.Products;
+using OrdersWeb.Api.Products.Models;
+using OrdersWeb.Api.Products.Repositories;
 using OrdersWeb.Test.Products.Fixtures;
-using System.Data.SQLite;
 using OrdersWeb.Test.Startup;
+using System.Data.SQLite;
 
 namespace OrdersWeb.Test.Products
 {

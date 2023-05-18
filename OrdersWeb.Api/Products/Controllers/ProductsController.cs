@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using OrdersWeb.Api.Products.Models;
 using OrdersWeb.Api.Products.Queries;
+using OrdersWeb.Api.Products.Repositories;
 
-namespace OrdersWeb.Api.Products;
+namespace OrdersWeb.Api.Products.Controllers;
 
 [ApiController]
 [Route("[controller]")]

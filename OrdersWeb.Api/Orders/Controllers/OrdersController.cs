@@ -2,9 +2,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OrdersWeb.Api.Orders.Commands;
+using OrdersWeb.Api.Orders.Models;
 using OrdersWeb.Api.Orders.Queries;
 
-namespace OrdersWeb.Api.Orders;
+namespace OrdersWeb.Api.Orders.Controllers;
 
 [ApiController]
 [Route("[controller]")]

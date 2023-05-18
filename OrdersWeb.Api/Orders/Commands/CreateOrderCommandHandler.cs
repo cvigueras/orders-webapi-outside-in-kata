@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
+using OrdersWeb.Api.Orders.Models;
+using OrdersWeb.Api.Orders.Repositories;
 
 namespace OrdersWeb.Api.Orders.Commands;
 

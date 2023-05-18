@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using FluentAssertions;
 using NSubstitute;
-using OrdersWeb.Api.Orders;
 using OrdersWeb.Api.Orders.Commands;
+using OrdersWeb.Api.Orders.Models;
 using OrdersWeb.Api.Orders.Queries;
-using OrdersWeb.Api.Products;
+using OrdersWeb.Api.Orders.Repositories;
+using OrdersWeb.Api.Products.Models;
+using OrdersWeb.Api.Products.Repositories;
 using OrdersWeb.Test.Orders.Fixtures;
 using OrdersWeb.Test.Products.Fixtures;
 using OrdersWeb.Test.Startup;
@@ -51,7 +53,7 @@ namespace OrdersWeb.Test.Orders.Commands
 
             var products = new List<Product>
             {
-                ProductMother.ComputerMonitorAsProduct(), 
+                ProductMother.ComputerMonitorAsProduct(),
                 ProductMother.KeyboardAsProduct()
             };
             var expectedOrder = new OrderReadDto("ORD765190", "A customer", "An Address", products);

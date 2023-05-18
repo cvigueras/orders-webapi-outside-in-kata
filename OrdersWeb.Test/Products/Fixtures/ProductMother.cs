@@ -1,4 +1,4 @@
-﻿using OrdersWeb.Api.Products;
+﻿using OrdersWeb.Api.Products.Models;
 
 namespace OrdersWeb.Test.Products.Fixtures;
 

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using OrdersWeb.Api.Orders;
-using OrdersWeb.Api.Products;
+using OrdersWeb.Api.Orders.Models;
+using OrdersWeb.Api.Products.Models;
 
-namespace OrdersWeb.Api.Start
+namespace OrdersWeb.Api.Startup
 {
     public class MapperConfig : Profile
     {

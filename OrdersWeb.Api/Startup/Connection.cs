@@ -1,8 +1,8 @@
 ﻿using Dapper;
-using OrdersWeb.Api.Products;
+using OrdersWeb.Api.Products.Models;
 using System.Data.SQLite;
 
-namespace OrdersWeb.Api.Start
+namespace OrdersWeb.Api.Startup
 {
     public class Connection
     {

@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using FluentAssertions;
 using NSubstitute;
-using OrdersWeb.Api.Products;
+using OrdersWeb.Api.Products.Models;
 using OrdersWeb.Api.Products.Queries;
+using OrdersWeb.Api.Products.Repositories;
 using OrdersWeb.Test.Products.Fixtures;
 
 namespace OrdersWeb.Test.Products.Queries

@@ -1,11 +1,12 @@
-﻿using System.Data.SQLite;
-using Dapper;
+﻿using Dapper;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OrdersWeb.Api;
-using OrdersWeb.Api.Orders;
-using OrdersWeb.Api.Products;
+using OrdersWeb.Api.Orders.Repositories;
+using OrdersWeb.Api.Products.Models;
+using OrdersWeb.Api.Products.Repositories;
+using System.Data.SQLite;
 
 namespace OrdersWeb.Test.Startup;
 

@@ -1,5 +1,5 @@
-﻿using System.Text;
-using OrdersWeb.Test.Startup;
+﻿using OrdersWeb.Test.Startup;
+using System.Text;
 
 namespace OrdersWeb.Test.Orders.Fixtures
 {

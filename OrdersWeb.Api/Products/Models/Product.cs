@@ -1,4 +1,4 @@
-﻿namespace OrdersWeb.Api.Products;
+﻿namespace OrdersWeb.Api.Products.Models;
 
 public class Product
 {

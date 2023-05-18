@@ -1,9 +1,10 @@
 ﻿using AutoFixture;
 using FluentAssertions;
-using OrdersWeb.Api.Orders;
+using OrdersWeb.Api.Orders.Models;
+using OrdersWeb.Api.Orders.Repositories;
 using OrdersWeb.Test.Orders.Fixtures;
-using System.Data.SQLite;
 using OrdersWeb.Test.Startup;
+using System.Data.SQLite;
 
 namespace OrdersWeb.Test.Orders
 {

@@ -1,8 +1,8 @@
-﻿using OrdersWeb.Api.Orders;
-using OrdersWeb.Api.Products;
+﻿using OrdersWeb.Api.Orders.Repositories;
+using OrdersWeb.Api.Products.Repositories;
 using System.Data.SQLite;
 
-namespace OrdersWeb.Api.Start;
+namespace OrdersWeb.Api.Startup;
 
 public class Startup
 {

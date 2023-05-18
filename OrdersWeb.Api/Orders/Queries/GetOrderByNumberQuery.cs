@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using OrdersWeb.Api.Orders.Models;
 
 namespace OrdersWeb.Api.Orders.Queries;
 

@@ -1,5 +1,5 @@
-﻿using OrdersWeb.Api.Orders;
-using OrdersWeb.Api.Products;
+﻿using OrdersWeb.Api.Orders.Models;
+using OrdersWeb.Api.Products.Models;
 
 namespace OrdersWeb.Test.Orders.Fixtures;
 

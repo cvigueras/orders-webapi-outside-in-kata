@@ -1,7 +1,8 @@
 ﻿using Dapper;
+using OrdersWeb.Api.Orders.Models;
 using System.Data.SQLite;
 
-namespace OrdersWeb.Api.Orders;
+namespace OrdersWeb.Api.Orders.Repositories;
 
 public class OrderRepository : IOrderRepository
 {
