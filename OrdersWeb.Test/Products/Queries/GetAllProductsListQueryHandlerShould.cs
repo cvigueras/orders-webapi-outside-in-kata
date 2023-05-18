@@ -2,14 +2,16 @@
 using FluentAssertions;
 using NSubstitute;
 using OrdersWeb.Api.Products;
+using OrdersWeb.Api.Products.Queries;
 using OrdersWeb.Test.Products.Fixtures;
 
-namespace OrdersWeb.Test.Products
+namespace OrdersWeb.Test.Products.Queries
 {
-    public class ProductsControllerShould
+    public class GetAllProductsListQueryHandlerShould
     {
-        private ProductsController _productsController;
         private IProductRepository _productRepository;
+        private GetAllProductsListQueryHandler _handler;
+        private GetAllProductsListQuery query;
         private IMapper _mapper;
 
         [SetUp]
@@ -17,7 +19,8 @@ namespace OrdersWeb.Test.Products
         {
             _productRepository = Substitute.For<IProductRepository>();
             _mapper = Substitute.For<IMapper>();
-            _productsController = new ProductsController(_productRepository, _mapper);
+            query = new GetAllProductsListQuery();
+            _handler = new GetAllProductsListQueryHandler(_productRepository, _mapper);
         }
 
         [Test]
@@ -25,7 +28,7 @@ namespace OrdersWeb.Test.Products
         {
             _productRepository.GetAll().Returns(Enumerable.Empty<Product>());
 
-            var result = await _productsController.Get();
+            var result = await _handler.Handle(query, default);
 
             result.Should().BeEquivalentTo(Enumerable.Empty<ProductReadDto>());
         }
@@ -38,7 +41,7 @@ namespace OrdersWeb.Test.Products
             var expectedProducts = GivenFirstDtoProducts();
             _mapper.Map<IEnumerable<ProductReadDto>>(productList).Returns(expectedProducts);
 
-            var result = await _productsController.Get();
+            var result = await _handler.Handle(query, default);
 
             result.Should().BeEquivalentTo(expectedProducts);
 
