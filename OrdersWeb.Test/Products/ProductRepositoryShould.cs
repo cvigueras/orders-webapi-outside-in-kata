@@ -35,12 +35,8 @@ namespace OrdersWeb.Test.Products
 
             var result = await _repository.GetById(id);
 
-            var expectedProduct = new Product
-            {
-                Id = id,
-                Name = "Computer Monitor",
-                Price = "100€",
-            };
+            var expectedProduct = ProductMother.ComputerMonitorAsProduct();
+            expectedProduct.Id = id;
             result.Should().BeEquivalentTo(expectedProduct);
         }
     }

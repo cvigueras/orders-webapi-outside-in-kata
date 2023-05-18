@@ -5,6 +5,8 @@ using OrdersWeb.Api.Orders;
 using OrdersWeb.Api.Orders.Commands;
 using OrdersWeb.Api.Orders.Queries;
 using OrdersWeb.Api.Products;
+using OrdersWeb.Test.Orders.Fixtures;
+using OrdersWeb.Test.Products.Fixtures;
 using OrdersWeb.Test.Startup;
 
 namespace OrdersWeb.Test.Orders.Commands
@@ -45,42 +47,12 @@ namespace OrdersWeb.Test.Orders.Commands
         [Test]
         public async Task RetrieveOrderWithProductsAdded()
         {
-            var givenOrder = new Order
-            {
-                Customer = "A customer",
-                Number = "ORD765190",
-                Address = "An Address",
-                Products = new List<Product>
-                {
-                    new()
-                    {
-                        Id = 1,
-                        Name = "Computer Monitor",
-                        Price = "100€",
-                    },
-                    new()
-                    {
-                        Id = 2,
-                        Name = "Keyboard",
-                        Price = "30€",
-                    }
-                }
-            };
+            var givenOrder = OrderMother.ACustomerAsCustomerWithTwoProducts();
 
             var products = new List<Product>
             {
-                new()
-                {
-                    Id = 1,
-                    Name = "Computer Monitor",
-                    Price = "100€",
-                },
-                new()
-                {
-                    Id = 2,
-                    Name = "Keyboard",
-                    Price = "30€",
-                }
+                ProductMother.ComputerMonitorAsProduct(), 
+                ProductMother.KeyboardAsProduct()
             };
             var expectedOrder = new OrderReadDto("ORD765190", "A customer", "An Address", products);
             await _orderRepository.Add(givenOrder);
@@ -118,12 +90,7 @@ namespace OrdersWeb.Test.Orders.Commands
 
         private void GivenAPostOrder()
         {
-            var order = new Order
-            {
-                Number = "ORD765190",
-                Customer = "John Doe",
-                Address = "A Simple Street, 123",
-            };
+            var order = OrderMother.JohnDoeAsCustomer();
             _orderRepository.Add(order);
         }
     }

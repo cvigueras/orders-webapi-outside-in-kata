@@ -5,6 +5,7 @@ using OrdersWeb.Api.Orders;
 using OrdersWeb.Api.Orders.Commands;
 using OrdersWeb.Api.Orders.Queries;
 using OrdersWeb.Api.Products;
+using OrdersWeb.Test.Orders.Fixtures;
 using OrdersWeb.Test.Startup;
 
 namespace OrdersWeb.Test.Orders.Commands
@@ -34,25 +35,38 @@ namespace OrdersWeb.Test.Orders.Commands
         [Test]
         public async Task CreateOrderWithBasicData()
         {
-            var givenCreateOrder = new OrderCreateDto(Number: "ORD765190", Customer: "John Doe",
-                Address: "A Simple Street, 123", null);
-            var order = new Order
-            {
-                Number = "ORD765190",
-                Customer = "John Doe",
-                Address = "A Simple Street, 123",
-                Products = null
-            };
-            _mapper.Map<Order>(givenCreateOrder).Returns(order);
-            var command = new CreateOrderCommand(givenCreateOrder);
-            await _createOrderCommandHandler.Handle(command, default);
+            await GivenAPostedOrderWithZeroProducts();
+
+            var result = await WhenRetrievePostedOrder();
+
+            ThenResultShouldBeExpectedOrder(result);
+        }
+
+        private static void ThenResultShouldBeExpectedOrder(Order result)
+        {
             var expectedOrder = new OrderReadDto(Number: "ORD765190", Customer: "John Doe",
                 Address: "A Simple Street, 123", new List<Product>());
+            result.Should().BeEquivalentTo(expectedOrder);
+        }
 
-            var query = new GetOrderByNumberQuery(order.Number);
-            var res = await _getOrderByNumberQueryHandler.Handle(query, default);
+        private async Task<Order> WhenRetrievePostedOrder()
+        {
+            var query = new GetOrderByNumberQuery("ORD765190");
+            var result = await _getOrderByNumberQueryHandler.Handle(query, default);
+            return result;
+        }
 
-            res.Should().BeEquivalentTo(expectedOrder);
+        private async Task GivenAPostedOrderWithZeroProducts()
+        {
+            var givenCreateOrder = new OrderCreateDto(Number: "ORD765190", Customer: "John Doe",
+                Address: "A Simple Street, 123", new List<Product>());
+
+            var order = OrderMother.JohnDoeAsCustomerWithZeroProducts();
+
+            _mapper.Map<Order>(givenCreateOrder).Returns(order);
+
+            var command = new CreateOrderCommand(givenCreateOrder);
+            await _createOrderCommandHandler.Handle(command, default);
         }
     }
 }

@@ -2,6 +2,7 @@
 using FluentAssertions;
 using NSubstitute;
 using OrdersWeb.Api.Products;
+using OrdersWeb.Test.Products.Fixtures;
 
 namespace OrdersWeb.Test.Products
 {
@@ -32,48 +33,37 @@ namespace OrdersWeb.Test.Products
         [Test]
         public async Task RetrieveAllProductsList()
         {
-            var productList = new List<Product>
-            {
-                new()
-                {
-                    Name = "Computer Monitor",
-                    Price = "100€",
-                },
-                new()
-                {
-                    Name = "Keyboard",
-                    Price = "30€",
-                },
-                new()
-                {
-                    Name = "Mouse",
-                    Price = "15€",
-                },
-                new()
-                {
-                    Name = "Router",
-                    Price = "70€",
-                },
-            };
-
+            var productList = GetFirstFourProducts();
             _productRepository.GetAll().Returns(productList);
-            var productReadDto1 = new ProductReadDto(0, "Computer Monitor", "100€");
-            var productReadDto2 = new ProductReadDto(0, "Keyboard", "30€");
-            var productReadDto3 = new ProductReadDto(0, "Mouse", "15€");
-            var productReadDto4 = new ProductReadDto(0, "Router", "70€");
-            var expectedProducts = new List<ProductReadDto>
-            {
-                productReadDto1,
-                productReadDto2,
-                productReadDto3,
-                productReadDto4
-            };
+            var expectedProducts = GivenFirstDtoProducts();
             _mapper.Map<IEnumerable<ProductReadDto>>(productList).Returns(expectedProducts);
 
             var result = await _productsController.Get();
 
             result.Should().BeEquivalentTo(expectedProducts);
 
+        }
+
+        private static List<ProductReadDto> GivenFirstDtoProducts()
+        {
+            return new List<ProductReadDto>
+            {
+                ProductMother.ComputerMonitorAsProductReadDto(),
+                ProductMother.KeyboardAsProductReadDto(),
+                ProductMother.MouseAsProductReadDto(),
+                ProductMother.RouterAsProductReadDto(),
+            };
+        }
+
+        private static List<Product> GetFirstFourProducts()
+        {
+            return new List<Product>
+            {
+                ProductMother.ComputerMonitorAsProduct(),
+                ProductMother.KeyboardAsProduct(),
+                ProductMother.MouseAsProduct(),
+                ProductMother.RouterAsProduct(),
+            };
         }
     }
 }
