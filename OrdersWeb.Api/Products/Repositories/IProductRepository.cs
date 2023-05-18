@@ -8,4 +8,5 @@ public interface IProductRepository
     Task<int> Add(Product product);
     Task<Product> GetById(int id);
     Task<IEnumerable<Product>> GetProductsOrder(string orderNumber);
+    Task<Product> GetByName(string? name);
 }

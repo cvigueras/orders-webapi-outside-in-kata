@@ -3,7 +3,11 @@ using OrdersWeb.Api.Products.Commands;
 using OrdersWeb.Api.Products.Repositories;
 using OrdersWeb.Test.Startup;
 using System.Data.SQLite;
+using AutoMapper;
+using NSubstitute;
 using OrdersWeb.Api.Products.Models;
+using OrdersWeb.Test.Products.Fixtures;
+using NSubstitute.ExceptionExtensions;
 
 namespace OrdersWeb.Test.Products.Commands
 {
@@ -13,25 +17,30 @@ namespace OrdersWeb.Test.Products.Commands
         private SQLiteConnection? _connection;
         private IProductRepository _productRepository;
         private CreateProductCommandHandler createProductCommandHandler;
+        private IMapper _mapper;
 
         [SetUp]
         public void SetUp()
         {
             _client = new SetupFixture();
             _connection = _client.GetConnection();
+            _client.CreateSeed();
             _productRepository = new ProductRepository(_connection);
-            createProductCommandHandler = new CreateProductCommandHandler(_productRepository);
+            _mapper = Substitute.For<IMapper>();
+            createProductCommandHandler = new CreateProductCommandHandler(_productRepository, _mapper);
         }
 
         [Test]
         public void FailWhenSendToPostAnExistingProduct()
         {
-            var productCreateDto = new ProductCreateDto("Headphones", "90€");
+            var productCreateDto = new ProductCreateDto("Mouse", "15€");
             var createProductCommand = new CreateProductCommand(productCreateDto);
+            var product = ProductMother.MouseAsProduct();
+            _mapper.Map<Product>(productCreateDto).Returns(product);
 
-            Action action = () => createProductCommandHandler.Handle(createProductCommand, default);
+            var action = () => createProductCommandHandler.Handle(createProductCommand, default);
 
-            action.Should().Throw<ArgumentNullException>();
+            action.Should().ThrowAsync<ArgumentException>().WithMessage("Product already exist");
         }
     }
 }

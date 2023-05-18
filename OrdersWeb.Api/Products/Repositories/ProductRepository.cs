@@ -40,6 +40,12 @@ public class ProductRepository : IProductRepository
                                                              $"WHERE Number = '{orderNumber}')")).ToList();
     }
 
+    public async Task<Product> GetByName(string? name)
+    {
+        var products = await _connection.QueryAsync<Product>($"SELECT * FROM Products WHERE Name = '{name}'");
+        return products.First();
+    }
+
     private int GetLastId()
     {
         return _connection.ExecuteScalar<int>("SELECT MAX(id) FROM Products");

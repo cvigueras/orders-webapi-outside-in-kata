@@ -28,9 +28,9 @@ public class ProductMother
     {
         return new()
         {
-            Id = 1,
+            Id = 3,
             Name = "Mouse",
-            Price = "100€",
+            Price = "15€",
         };
     }
 
@@ -38,29 +38,28 @@ public class ProductMother
     {
         return new()
         {
-            Id = 1,
+            Id = 4,
             Name = "Router",
             Price = "70€",
         };
     }
 
-    public static ProductReadDto KeyboardAsProductReadDto()
-    {
-        return new ProductReadDto(0, "Keyboard", "30€");
-    }
-
     public static ProductReadDto ComputerMonitorAsProductReadDto()
     {
-        return new ProductReadDto(0, "Computer Monitor", "100€");
+        return new ProductReadDto(1, "Computer Monitor", "100€");
+    }
+    public static ProductReadDto KeyboardAsProductReadDto()
+    {
+        return new ProductReadDto(2, "Keyboard", "30€");
     }
 
     public static ProductReadDto MouseAsProductReadDto()
     {
-        return new ProductReadDto(0, "Mouse", "15€");
+        return new ProductReadDto(3, "Mouse", "15€");
     }
 
     public static ProductReadDto RouterAsProductReadDto()
     {
-        return new ProductReadDto(0, "Router", "70€");
+        return new ProductReadDto(4, "Router", "70€");
     }
 }
