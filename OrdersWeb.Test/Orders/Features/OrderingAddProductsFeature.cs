@@ -22,6 +22,7 @@ namespace OrdersWeb.Test.Orders.Features
 
             await ThenVerifyTheOrderContent(response);
         }
+
         private async Task GivenAnUpdatedPost()
         {
             var jsonPost = await _client.GetJsonContent("./Orders/Fixtures/Order.json");
