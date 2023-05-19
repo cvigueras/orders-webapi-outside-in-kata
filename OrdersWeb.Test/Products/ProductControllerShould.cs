@@ -29,12 +29,11 @@ namespace OrdersWeb.Test.Products
             var productController = new ProductsController(_sender, _productRepository, _mapper);
 
             _productRepository.GetById(123).Returns((Product)null);
-            var actionResult = productController.Get(123);
+            var actionResult = productController.GetProductById(123);
 
-            var result = actionResult.Result as ConflictObjectResult;
+            var result = actionResult.Result as NotFoundResult;
 
-            result.Value.Should().Be("The product not exists");
-            result.StatusCode.Should().Be(409);
+            result.StatusCode.Should().Be(404);
         }
     }
 }

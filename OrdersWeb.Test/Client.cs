@@ -19,13 +19,14 @@ namespace OrdersWeb.Test
             return await jsonReader.ReadToEndAsync();
         }
 
-        public async Task Post(string json, string requestUri)
+        public async Task<HttpResponseMessage> Post(string json, string requestUri)
         {
             var response = await _client!.PostAsync(requestUri,
                 new StringContent(json,
                     Encoding.Default,
                     MediaType));
             response.EnsureSuccessStatusCode();
+            return response;
         }
 
         public async Task Put(string jsonPut, string requestUri)

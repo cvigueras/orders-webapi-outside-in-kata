@@ -14,10 +14,14 @@ namespace OrdersWeb.Api.Products.Controllers;
 public class ProductsController : ControllerBase
 {
     private readonly ISender _sender;
+    private readonly IProductRepository _productRepository;
+    private readonly IMapper _mapper;
 
     public ProductsController(ISender sender, IProductRepository productRepository, IMapper mapper)
     {
         _sender = sender;
+        _productRepository = productRepository;
+        _mapper = mapper;
     }
 
     [HttpGet]
@@ -41,9 +45,17 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet]
-    public Task<ActionResult> Get(int id)
+    [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Product))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> GetProductById(int id)
     {
-        throw new NotImplementedException();
+        var product = await _productRepository.GetById(id);
+        if (product == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(product);
     }
 }

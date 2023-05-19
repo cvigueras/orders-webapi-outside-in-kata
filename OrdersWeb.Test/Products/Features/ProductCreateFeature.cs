@@ -17,9 +17,9 @@ namespace OrdersWeb.Test.Products.Features
         public async Task GetAProductByIdAfterPost()
         {
             var jsonPost = await _client.GetJsonContent("./Products/Fixtures/Product.json");
-            await _client.Post(jsonPost, "/Products/");
-
-            var response = await _client.Get("/Products/5");
+            var responsePost = await _client.Post(jsonPost, "/Products/");
+            var resultId = responsePost.Content.ReadAsStringAsync().Result;
+            var response = await _client.Get($"/Products/{resultId}");
             var result = response.Content.ReadAsStringAsync().Result;
 
             await Verify(result);
