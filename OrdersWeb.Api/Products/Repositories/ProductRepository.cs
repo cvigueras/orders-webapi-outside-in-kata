@@ -28,7 +28,7 @@ public class ProductRepository : IProductRepository
     public async Task<Product> GetById(int id)
     {
         var products = await _connection.QueryAsync<Product>($"SELECT * FROM Products WHERE Id = '{id}'");
-        return products.First();
+        return products.Any() ? products.First() : null;
     }
 
     public async Task<IEnumerable<Product>> GetProductsOrder(string orderNumber)
