@@ -1,3 +1,3 @@
 ﻿namespace OrdersWeb.Api.Products.Models;
 
-public record ProductCreateDto(string name, string price);
+public record ProductCreateDto(string Name, string Price);

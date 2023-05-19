@@ -12,6 +12,7 @@ namespace OrdersWeb.Api.Startup
             CreateMap<Order, OrderReadDto>().ReverseMap();
             CreateMap<Order, OrderUpdateDto>().ReverseMap();
             CreateMap<Product, ProductReadDto>().ReverseMap();
+            CreateMap<Product, ProductCreateDto>().ReverseMap();
         }
     }
 }

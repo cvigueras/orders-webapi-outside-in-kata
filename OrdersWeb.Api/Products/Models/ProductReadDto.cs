@@ -1,3 +1,3 @@
 ﻿namespace OrdersWeb.Api.Products.Models;
 
-public record ProductReadDto(int id, string Name, string Price);
+public record ProductReadDto(int Id, string Name, string Price);

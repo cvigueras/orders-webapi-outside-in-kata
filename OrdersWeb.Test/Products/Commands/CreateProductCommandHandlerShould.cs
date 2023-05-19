@@ -7,7 +7,6 @@ using OrdersWeb.Api.Products.Repositories;
 using OrdersWeb.Test.Products.Fixtures;
 using OrdersWeb.Test.Startup;
 using System.Data.SQLite;
-using OrdersWeb.Api.Products.Queries;
 
 namespace OrdersWeb.Test.Products.Commands
 {
@@ -35,7 +34,7 @@ namespace OrdersWeb.Test.Products.Commands
         {
             var product = ProductMother.MouseAsProduct();
             var productCreateDto = new ProductCreateDto("Mouse", "15€");
-            _mapper.Map<Product>(productCreateDto).Returns(product);
+            _mapper.Map<Product>(Arg.Is(productCreateDto)).Returns(product);
 
             var createProductCommand = new CreateProductCommand(productCreateDto);
             var action = () => createProductCommandHandler.Handle(createProductCommand, default);
@@ -48,6 +47,7 @@ namespace OrdersWeb.Test.Products.Commands
         {
             var product = new Product
             {
+                Id = 5,
                 Name = "Headphones",
                 Price = "90€",
             };
@@ -55,13 +55,11 @@ namespace OrdersWeb.Test.Products.Commands
             _mapper.Map<Product>(productCreateDto).Returns(product);
             var createProductCommand = new CreateProductCommand(productCreateDto);
             var id = await createProductCommandHandler.Handle(createProductCommand, default);
-            
-            var getProductByIdQuery = new GetProductByIdQuery(id);
-            var getProductByIdQueryHandler = new GetProductByIdQueryHandler(_productRepository, _mapper);
-            var result = getProductByIdQueryHandler.Handle(getProductByIdQuery, default);
 
             var expectedProduct = new ProductReadDto(id,"Headphones", "90€");
-            result.Should().Be(expectedProduct);
+
+            var result = await _productRepository.GetById(id);
+            result.Should().BeEquivalentTo(expectedProduct);
         }
     }
 }

@@ -16,8 +16,10 @@ public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, P
         _mapper = mapper;
     }
 
-    public Task<ProductReadDto> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
+    public async Task<ProductReadDto> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var product = await _productRepository.GetById(request.Id);
+        var foo = _mapper.Map<ProductReadDto>(product);
+        return foo;
     }
 }
