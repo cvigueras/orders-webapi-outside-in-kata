@@ -45,12 +45,7 @@ namespace OrdersWeb.Test.Products.Commands
         [Test]
         public async Task RetrieveANewProductAfterPost()
         {
-            var product = new Product
-            {
-                Id = 5,
-                Name = "Headphones",
-                Price = "90€",
-            };
+            var product = ProductMother.HeadphonesAsProduct();
             var productCreateDto = new ProductCreateDto("Headphones", "90€");
             _mapper.Map<Product>(productCreateDto).Returns(product);
             var createProductCommand = new CreateProductCommand(productCreateDto);

@@ -44,6 +44,16 @@ public class ProductMother
         };
     }
 
+    public static Product HeadphonesAsProduct()
+    {
+        return new()
+        {
+            Id = 5,
+            Name = "Headphones",
+            Price = "90€",
+        };
+    }
+
     public static ProductReadDto ComputerMonitorAsProductReadDto()
     {
         return new ProductReadDto(1, "Computer Monitor", "100€");
