@@ -6,6 +6,7 @@ using NSubstitute;
 using OrdersWeb.Api.Products.Controllers;
 using OrdersWeb.Api.Products.Models;
 using OrdersWeb.Api.Products.Repositories;
+using OrdersWeb.Test.Products.Fixtures;
 
 namespace OrdersWeb.Test.Products
 {
@@ -34,6 +35,21 @@ namespace OrdersWeb.Test.Products
             var result = actionResult.Result as NotFoundResult;
 
             result.StatusCode.Should().Be(404);
+        }
+
+        [Test]
+        public async Task RetrieveAnExistingProduct()
+        {
+            var productController = new ProductsController(_sender, _productRepository, _mapper);
+            var expectedProduct = ProductMother.ComputerMonitorAsProductReadDto();
+            var product = ProductMother.ComputerMonitorAsProduct();
+            _productRepository.GetById(expectedProduct.Id).Returns(product);
+
+            var actionResult = await productController.GetProductById(expectedProduct.Id);
+
+            var result = actionResult as OkObjectResult;
+
+            result.Value.Should().BeEquivalentTo(expectedProduct);
         }
     }
 }
