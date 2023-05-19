@@ -3,7 +3,7 @@ using OrdersWeb.Api.Products.Models;
 
 namespace OrdersWeb.Api.Products.Commands;
 
-public class CreateProductCommand: IRequest<int>
+public class CreateProductCommand : IRequest<int>
 {
     public CreateProductCommand(ProductCreateDto productCreateDto)
     {

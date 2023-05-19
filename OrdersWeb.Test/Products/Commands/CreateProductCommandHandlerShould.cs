@@ -1,13 +1,12 @@
-﻿using FluentAssertions;
+﻿using AutoMapper;
+using FluentAssertions;
+using NSubstitute;
 using OrdersWeb.Api.Products.Commands;
+using OrdersWeb.Api.Products.Models;
 using OrdersWeb.Api.Products.Repositories;
+using OrdersWeb.Test.Products.Fixtures;
 using OrdersWeb.Test.Startup;
 using System.Data.SQLite;
-using AutoMapper;
-using NSubstitute;
-using OrdersWeb.Api.Products.Models;
-using OrdersWeb.Test.Products.Fixtures;
-using NSubstitute.ExceptionExtensions;
 
 namespace OrdersWeb.Test.Products.Commands
 {
@@ -38,7 +37,6 @@ namespace OrdersWeb.Test.Products.Commands
             _mapper.Map<Product>(productCreateDto).Returns(product);
 
             var createProductCommand = new CreateProductCommand(productCreateDto);
-
             var action = () => createProductCommandHandler.Handle(createProductCommand, default);
 
             await action.Should().ThrowAsync<ArgumentException>().WithMessage("Product already exist");
