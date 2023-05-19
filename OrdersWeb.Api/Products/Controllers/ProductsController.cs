@@ -1,5 +1,5 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;using Microsoft.AspNetCore.Mvc;
+using OrdersWeb.Api.Products.Commands;
 using OrdersWeb.Api.Products.Models;
 using OrdersWeb.Api.Products.Queries;
 
@@ -20,6 +20,13 @@ public class ProductsController : ControllerBase
     public async Task<IEnumerable<ProductReadDto>> Get()
     {
         var query = new GetAllProductsListQuery();
+        return await _sender.Send(query);
+    }
+
+    [HttpPost]
+    public async Task<int> Post(ProductCreateDto productCreateDto)
+    {
+        var query = new CreateProductCommand(productCreateDto);
         return await _sender.Send(query);
     }
 }
