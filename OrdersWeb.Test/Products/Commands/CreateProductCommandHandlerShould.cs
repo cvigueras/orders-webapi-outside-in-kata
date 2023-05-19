@@ -31,16 +31,17 @@ namespace OrdersWeb.Test.Products.Commands
         }
 
         [Test]
-        public void FailWhenSendToPostAnExistingProduct()
+        public async Task FailWhenSendToPostAnExistingProduct()
         {
-            var productCreateDto = new ProductCreateDto("Mouse", "15€");
-            var createProductCommand = new CreateProductCommand(productCreateDto);
             var product = ProductMother.MouseAsProduct();
+            var productCreateDto = new ProductCreateDto("Mouse", "15€");
             _mapper.Map<Product>(productCreateDto).Returns(product);
+
+            var createProductCommand = new CreateProductCommand(productCreateDto);
 
             var action = () => createProductCommandHandler.Handle(createProductCommand, default);
 
-            action.Should().ThrowAsync<ArgumentException>().WithMessage("Product already exist");
+            await action.Should().ThrowAsync<ArgumentException>().WithMessage("Product already exist");
         }
     }
 }

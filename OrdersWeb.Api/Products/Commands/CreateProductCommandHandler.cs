@@ -19,7 +19,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
     public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
         var product = _mapper.Map<Product>(request.ProductCreate);
-        var existProduct = _productRepository.GetByName(product.Name);
+        var existProduct = await _productRepository.GetByName(product.Name);
         if (existProduct != null)
         {
             throw new ArgumentException("Product already exist");
