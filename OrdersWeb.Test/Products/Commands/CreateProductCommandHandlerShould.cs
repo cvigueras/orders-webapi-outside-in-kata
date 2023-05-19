@@ -7,6 +7,7 @@ using OrdersWeb.Api.Products.Repositories;
 using OrdersWeb.Test.Products.Fixtures;
 using OrdersWeb.Test.Startup;
 using System.Data.SQLite;
+using OrdersWeb.Api.Products.Queries;
 
 namespace OrdersWeb.Test.Products.Commands
 {
@@ -40,6 +41,27 @@ namespace OrdersWeb.Test.Products.Commands
             var action = () => createProductCommandHandler.Handle(createProductCommand, default);
 
             await action.Should().ThrowAsync<ArgumentException>().WithMessage("Product already exist");
+        }
+
+        [Test]
+        public async Task RetrieveANewProductAfterPost()
+        {
+            var product = new Product
+            {
+                Name = "Headphones",
+                Price = "90€",
+            };
+            var productCreateDto = new ProductCreateDto("Headphones", "90€");
+            _mapper.Map<Product>(productCreateDto).Returns(product);
+            var createProductCommand = new CreateProductCommand(productCreateDto);
+            var id = await createProductCommandHandler.Handle(createProductCommand, default);
+            
+            var getProductByIdQuery = new GetProductByIdQuery(id);
+            var getProductByIdQueryHandler = new GetProductByIdQueryHandler(_productRepository, _mapper);
+            var result = getProductByIdQueryHandler.Handle(getProductByIdQuery, default);
+
+            var expectedProduct = new ProductReadDto(id,"Headphones", "90€");
+            result.Should().Be(expectedProduct);
         }
     }
 }

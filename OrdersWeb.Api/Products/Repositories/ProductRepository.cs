@@ -43,7 +43,7 @@ public class ProductRepository : IProductRepository
     public async Task<Product> GetByName(string? name)
     {
         var products = await _connection.QueryAsync<Product>($"SELECT * FROM Products WHERE Name = '{name}'");
-        return products.First();
+        return products.Any() ? products.First() : null;
     }
 
     private int GetLastId()
