@@ -48,7 +48,6 @@ namespace OrdersWeb.Test.Products
             var actionResult = await productController.GetProductById(expectedProduct.Id);
 
             var result = actionResult as OkObjectResult;
-
             result.Value.Should().BeEquivalentTo(expectedProduct);
         }
     }
