@@ -1,10 +1,8 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OrdersWeb.Api.Products.Commands;
 using OrdersWeb.Api.Products.Models;
 using OrdersWeb.Api.Products.Queries;
-using OrdersWeb.Api.Products.Repositories;
 
 namespace OrdersWeb.Api.Products.Controllers;
 
@@ -14,7 +12,7 @@ public class ProductsController : ControllerBase
 {
     private readonly ISender _sender;
 
-    public ProductsController(ISender sender, IProductRepository productRepository, IMapper mapper)
+    public ProductsController(ISender sender)
     {
         _sender = sender;
     }
