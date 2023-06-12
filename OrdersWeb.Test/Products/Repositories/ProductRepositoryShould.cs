@@ -5,7 +5,7 @@ using OrdersWeb.Test.Products.Fixtures;
 using OrdersWeb.Test.Startup;
 using System.Data.SQLite;
 
-namespace OrdersWeb.Test.Products
+namespace OrdersWeb.Test.Products.Repositories
 {
     public class ProductRepositoryShould
     {

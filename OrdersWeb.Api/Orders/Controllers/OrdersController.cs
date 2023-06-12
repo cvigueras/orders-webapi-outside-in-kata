@@ -23,15 +23,13 @@ public class OrdersController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post(OrderCreateDto orderCreateDto)
     {
-        var createOrderCommand = new CreateOrderCommand(orderCreateDto);
-        return Ok(await _sender.Send(createOrderCommand));
+        return Ok(await _sender.Send(new CreateOrderCommand(orderCreateDto)));
     }
 
     [HttpGet("{number}")]
     public async Task<IActionResult> Get(string number)
     {
-        var query = new GetOrderByNumberQuery(number);
-        var order = await _sender.Send(query);
+        var order = await _sender.Send(new GetOrderByNumberQuery(number));
         return Ok(_mapper.Map<OrderReadDto>(order));
     }
 
@@ -40,8 +38,7 @@ public class OrdersController : ControllerBase
     {
         if (number != orderUpdate.Number)
             return BadRequest("Order number mismatch");
-        var query = new UpdateOrderCommand(orderUpdate);
-        await _sender.Send(query);
+        await _sender.Send(new UpdateOrderCommand(orderUpdate));
         return Ok("Order updated successfully!");
     }
 }

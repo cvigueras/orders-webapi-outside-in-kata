@@ -27,8 +27,7 @@ public class ProductsController : ControllerBase
     [HttpGet]
     public async Task<IEnumerable<ProductReadDto>> Get()
     {
-        var query = new GetAllProductsListQuery();
-        return await _sender.Send(query);
+        return await _sender.Send(new GetAllProductsListQuery());
     }
 
     [HttpPost]
@@ -36,8 +35,7 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            var query = new CreateProductCommand(productCreateDto);
-            return Ok(await _sender.Send(query));
+            return Ok(await _sender.Send(new CreateProductCommand(productCreateDto)));
         }
         catch (ArgumentException ae)
         {
@@ -50,12 +48,7 @@ public class ProductsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> GetProductById(int id)
     {
-        var product = await _productRepository.GetById(id);
-        if (product == null)
-        {
-            return NotFound();
-        }
-
-        return Ok(product);
+        var product = await _sender.Send(new GetProductByIdQuery(id));
+        return product == null ? NotFound() : Ok(product);
     }
 }
