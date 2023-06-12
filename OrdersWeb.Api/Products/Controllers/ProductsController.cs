@@ -13,14 +13,10 @@ namespace OrdersWeb.Api.Products.Controllers;
 public class ProductsController : ControllerBase
 {
     private readonly ISender _sender;
-    private readonly IProductRepository _productRepository;
-    private readonly IMapper _mapper;
 
     public ProductsController(ISender sender, IProductRepository productRepository, IMapper mapper)
     {
         _sender = sender;
-        _productRepository = productRepository;
-        _mapper = mapper;
     }
 
     [HttpGet]
