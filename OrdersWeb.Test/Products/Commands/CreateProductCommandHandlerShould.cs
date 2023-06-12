@@ -51,7 +51,7 @@ namespace OrdersWeb.Test.Products.Commands
             var createProductCommand = new CreateProductCommand(productCreateDto);
             var id = await createProductCommandHandler.Handle(createProductCommand, default);
 
-            var expectedProduct = new ProductReadDto(id,"Headphones", "90€");
+            var expectedProduct = new ProductReadDto(id, "Headphones", "90€");
 
             var result = await _productRepository.GetById(id);
             result.Should().BeEquivalentTo(expectedProduct);
